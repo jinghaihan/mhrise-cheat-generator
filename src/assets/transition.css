@@ -1,0 +1,145 @@
+/**
+ * Credit to [@vbenjs](https://github.com/vbenjs)
+ * @copy https://github.com/vbenjs/vue-vben-admin
+ */
+
+/* Fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-slow {
+  animation: fade 3s infinite;
+}
+
+/* Fade Slide */
+.fade-slide-leave-active,
+.fade-slide-enter-active {
+  transition: all 0.3s;
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translate(-30px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translate(30px);
+}
+
+@keyframes fade-slide {
+  0% {
+    opacity: 0;
+    transform: translate(-30px);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(30px);
+  }
+}
+
+.fade-slide-slow {
+  animation: fade-slide 3s infinite;
+}
+
+/* Fade Up */
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition:
+    opacity 0.2s,
+    transform 0.25s;
+}
+
+.fade-up-enter-from {
+  opacity: 0;
+  transform: translateY(10%);
+}
+
+.fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(-10%);
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+}
+
+.fade-up-slow {
+  animation: fade-up 3s infinite;
+}
+
+/* Fade Down */
+.fade-down-enter-active,
+.fade-down-leave-active {
+  transition:
+    opacity 0.25s,
+    transform 0.3s;
+}
+
+.fade-down-enter-from {
+  opacity: 0;
+  transform: translateY(-10%);
+}
+
+.fade-down-leave-to {
+  opacity: 0;
+  transform: translateY(10%);
+}
+
+@keyframes fade-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+}
+
+.fade-down-slow {
+  animation: fade-down 3s infinite;
+}

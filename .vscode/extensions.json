@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "vue.volar",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "antfu.iconify",
+    "antfu.unocss",
+    "antfu.goto-alias",
+    "lokalise.i18n-ally",
+    "streetsidesoftware.code-spell-checker"
+  ],
+  "unwantedRecommendations": [
+    "octref.vetur"
+  ]
+}
