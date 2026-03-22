@@ -2,26 +2,31 @@
 import type { WeaponUsageFormState } from './constant'
 import { defineComponent, ref } from 'vue'
 import { useCheat } from '@/composables/useCheat'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import {
   GUILD_CARD_WEAPON_USAGE_QUEST_TYPE,
   GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE,
 } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { isEmpty, parseSelectOptions } from '@/utils'
 
 export default defineComponent({
   name: 'WeaponUsageForm',
   setup() {
-    const GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE_OPTIONS = parseSelectOptions(
-      GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE,
+    const GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE, false, {
+        i18nPrefix: ENUM_I18N_PREFIX.guildCardWeaponType,
+      }),
     )
-    const GUILD_CARD_WEAPON_USAGE_QUEST_TYPE_OPTIONS = parseSelectOptions(
-      GUILD_CARD_WEAPON_USAGE_QUEST_TYPE,
-      true,
+    const GUILD_CARD_WEAPON_USAGE_QUEST_TYPE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(GUILD_CARD_WEAPON_USAGE_QUEST_TYPE, true, {
+        i18nPrefix: ENUM_I18N_PREFIX.guildCardWeaponUsageQuestType,
+      }),
     )
 
     const images = {} as Record<string, string>
-    GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE_OPTIONS.forEach((weapon) => {
-      images[weapon.value] = new URL(`../../assets/images/weapon/${weapon.value}.jpeg`, import.meta.url).href
+    Object.values(GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE).forEach((weaponValue) => {
+      images[weaponValue] = new URL(`../../assets/images/weapon/${weaponValue}.jpeg`, import.meta.url).href
     })
 
     const formState = ref({
@@ -49,13 +54,15 @@ export default defineComponent({
             genCheat('WEAPON_USAGE', {
               count: formState.value[weapon][quest],
               weapon: {
-                label: GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE_OPTIONS.find(
+                label: GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE_OPTIONS.value.find(
                   item => item.value === weapon,
                 )?.label as string,
                 value: weapon,
               },
               quest: {
-                label: GUILD_CARD_WEAPON_USAGE_QUEST_TYPE[quest],
+                label: GUILD_CARD_WEAPON_USAGE_QUEST_TYPE_OPTIONS.value.find(
+                  item => item.value === quest,
+                )?.label || GUILD_CARD_WEAPON_USAGE_QUEST_TYPE[quest],
                 value: quest,
               },
             })
@@ -76,7 +83,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card title="武器使用次数" size="small">
+  <a-card :title="$t('ui.guildCard.weaponUsageCount')" size="small">
     <a-space :size="[8, 8]" wrap>
       <a-popover
         v-for="weapon in GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE_OPTIONS"
@@ -100,7 +107,7 @@ export default defineComponent({
             >
               <a-input-number
                 v-model:value="formState[weapon.value][item.value]"
-                placeholder="使用次数"
+                :placeholder="$t('ui.guildCard.usageCount')"
                 :precision="0"
                 :min="0"
                 allow-clear

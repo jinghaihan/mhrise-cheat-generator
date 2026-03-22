@@ -3,10 +3,11 @@ import type { ColumnData } from './constant'
 import { defineComponent, inject, ref } from 'vue'
 import { HorizontalLayout } from '@/components/TableLayout'
 import { useCheat } from '@/composables/useCheat'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 
 import { getTableScrollX } from '@/utils'
 import BasicForm from './BasicForm.vue'
-import { columns } from './constant'
+import { getColumns } from './constant'
 
 export default defineComponent({
   name: 'QuriousCrafting',
@@ -14,6 +15,7 @@ export default defineComponent({
   setup() {
     const { genCheat } = useCheat()
     const data = ref([] as ColumnData[])
+    const columns = useReactiveI18n(getColumns)
 
     const onSubmit = () => {
       if (data.value.length) {
@@ -43,7 +45,7 @@ export default defineComponent({
 
       <template #operation>
         <a-button type="primary" :disabled="!data.length" @click="onSubmit">
-          加入购物车
+          {{ $t('ui.common.addToCart') }}
         </a-button>
       </template>
 
@@ -67,13 +69,13 @@ export default defineComponent({
 
             <template v-if="column.key === 'action'">
               <a-popconfirm
-                title="确定删除吗?"
-                ok-text="Yes"
-                cancel-text="No"
+                :title="$t('ui.common.confirmDelete')"
+                :ok-text="$t('ui.common.yes')"
+                :cancel-text="$t('ui.common.no')"
                 @confirm="data = data.filter((item) => item.box !== record.box)"
               >
                 <a-button type="text" danger>
-                  删除
+                  {{ $t('ui.common.delete') }}
                 </a-button>
               </a-popconfirm>
             </template>

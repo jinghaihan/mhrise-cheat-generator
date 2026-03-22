@@ -3,14 +3,24 @@ import type { ArenaRecordFormState } from './constant'
 import { cloneDeep } from 'lodash-es'
 import { computed, defineComponent, ref } from 'vue'
 import { useCheat } from '@/composables/useCheat'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { GUILD_CARD_ARENA_QUEST, GUILD_CARD_ARENA_TYPE } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { parseSelectOptions } from '@/utils'
 
 export default defineComponent({
   name: 'ArenaRecordForm',
   setup() {
-    const GUILD_CARD_ARENA_TYPE_OPTIONS = parseSelectOptions(GUILD_CARD_ARENA_TYPE)
-    const GUILD_CARD_ARENA_QUEST_OPTIONS = parseSelectOptions(GUILD_CARD_ARENA_QUEST)
+    const GUILD_CARD_ARENA_TYPE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(GUILD_CARD_ARENA_TYPE, false, {
+        i18nPrefix: ENUM_I18N_PREFIX.guildCardArenaType,
+      }),
+    )
+    const GUILD_CARD_ARENA_QUEST_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(GUILD_CARD_ARENA_QUEST, false, {
+        i18nPrefix: ENUM_I18N_PREFIX.guildCardArenaQuest,
+      }),
+    )
 
     const formState = ref({
       type: null,
@@ -20,9 +30,7 @@ export default defineComponent({
     const data = ref([] as ArenaRecordFormState[])
 
     const reset = () => {
-      formState.value.type = GUILD_CARD_ARENA_TYPE_OPTIONS.find(
-        item => item.label === '大师等级',
-      )
+      formState.value.type = GUILD_CARD_ARENA_TYPE_OPTIONS.value.find(item => item.value === '88')
       formState.value.quest = null
       formState.value.slot = null
     }
@@ -49,10 +57,12 @@ export default defineComponent({
       formState,
       GUILD_CARD_ARENA_TYPE_OPTIONS,
       COMPUTED_GUILD_CARD_ARENA_QUEST_OPTIONS: computed(() => {
-        if (formState.value.type?.label === '大师等级') {
-          return GUILD_CARD_ARENA_QUEST_OPTIONS.filter(item => !item.label.includes('挑战任务'))
+        if (formState.value.type?.value === '88') {
+          return GUILD_CARD_ARENA_QUEST_OPTIONS.value.filter(
+            item => Number.parseInt(item.value, 16) < 0x50,
+          )
         }
-        return GUILD_CARD_ARENA_QUEST_OPTIONS
+        return GUILD_CARD_ARENA_QUEST_OPTIONS.value
       }),
       onSubmit,
       onAdd,
@@ -63,17 +73,17 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card title="斗技大会记录消除" size="small">
+  <a-card :title="$t('ui.guildCard.arenaRecordRemove')" size="small">
     <template #extra>
       <a-button type="primary" size="small" @click="onAdd">
-        添加
+        {{ $t('ui.common.add') }}
       </a-button>
     </template>
     <a-form :model="formState" layout="vertical">
-      <a-form-item label="任务等级">
+      <a-form-item :label="$t('ui.guildCard.questLevel')">
         <a-select
           v-model:value="formState.type"
-          placeholder="任务等级"
+          :placeholder="$t('ui.guildCard.questLevel')"
           :options="GUILD_CARD_ARENA_TYPE_OPTIONS"
           option-filter-prop="label"
           show-search
@@ -81,10 +91,10 @@ export default defineComponent({
           allow-clear
         />
       </a-form-item>
-      <a-form-item label="斗技任务">
+      <a-form-item :label="$t('ui.guildCard.arenaQuest')">
         <a-select
           v-model:value="formState.quest"
-          placeholder="斗技任务"
+          :placeholder="$t('ui.guildCard.arenaQuest')"
           :options="COMPUTED_GUILD_CARD_ARENA_QUEST_OPTIONS"
           option-filter-prop="label"
           show-search
@@ -92,10 +102,10 @@ export default defineComponent({
           allow-clear
         />
       </a-form-item>
-      <a-form-item label="记录栏位.No">
+      <a-form-item :label="$t('ui.guildCard.recordSlotNo')">
         <a-input-number
           v-model:value="formState.slot"
-          placeholder="记录栏位.No"
+          :placeholder="$t('ui.guildCard.recordSlotNo')"
           :precision="0"
           :min="1"
           :max="5"
@@ -109,12 +119,12 @@ export default defineComponent({
     <a-space wrap>
       <a-tooltip v-for="(tag, index) in data" :key="`${tag.type}_${tag.quest}_${tag.slot}`">
         <template #title>
-          <p>任务等级：{{ tag.type?.label }}</p>
-          <p>斗技任务：{{ tag.quest?.label }}</p>
-          <p>记录栏位.No：{{ tag.slot }}</p>
+          <p>{{ $t('ui.guildCard.questLevel') }}: {{ tag.type?.label }}</p>
+          <p>{{ $t('ui.guildCard.arenaQuest') }}: {{ tag.quest?.label }}</p>
+          <p>{{ $t('ui.guildCard.recordSlotNo') }}: {{ tag.slot }}</p>
         </template>
         <a-tag
-          :color="tag.type?.label === '大师等级' ? 'purple' : 'blue'"
+          :color="tag.type?.value === '88' ? 'purple' : 'blue'"
           closable
           @close="onDelete(index)"
         >

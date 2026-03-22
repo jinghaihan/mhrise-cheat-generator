@@ -1,15 +1,41 @@
 <script lang="ts">
+import type { TreeSelectProps } from 'ant-design-vue'
 import type { BasicFormState } from './constant'
 import { cloneDeep } from 'lodash-es'
 import { computed, defineComponent, ref } from 'vue'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { QURIOUS_CRAFTING_SKILL, QURIOUS_CRAFTING_TYPE } from '@/constants/database'
-import { isEmpty, parseSelectOptions } from '@/utils'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
+import { getEnumLabel, isEmpty, parseSelectOptions } from '@/utils'
 
 export default defineComponent({
   name: 'BasicForm',
   emits: ['add', 'clear'],
   setup(_, { emit }) {
-    const QURIOUS_CRAFTING_TYPE_OPTIONS = parseSelectOptions(QURIOUS_CRAFTING_TYPE)
+    const QURIOUS_CRAFTING_TYPE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(QURIOUS_CRAFTING_TYPE, false, {
+        i18nPrefix: ENUM_I18N_PREFIX.quriousCraftingType,
+      }),
+    )
+    const QURIOUS_CRAFTING_SKILL_OPTIONS = useReactiveI18n(() => {
+      const translateTree = (data: any[]): TreeSelectProps['treeData'] => {
+        return data
+          .filter(Boolean)
+          .map((node) => {
+            return {
+              ...node,
+              label: getEnumLabel(
+                ENUM_I18N_PREFIX.quriousCraftingSkill,
+                String(node.value),
+                String(node.label || ''),
+              ),
+              children: Array.isArray(node.children) ? translateTree(node.children) : undefined,
+            }
+          })
+      }
+
+      return translateTree(QURIOUS_CRAFTING_SKILL as any[])
+    })
 
     const formState = ref({
       box: 201,
@@ -19,9 +45,7 @@ export default defineComponent({
       for (let i = 0; i < 7; i++) {
         formState.value[`skill${i + 1}`] = null
       }
-      formState.value.type = QURIOUS_CRAFTING_TYPE_OPTIONS.find(
-        item => item.label === '怪异强化',
-      )
+      formState.value.type = QURIOUS_CRAFTING_TYPE_OPTIONS.value[0]
     }
     reset()
 
@@ -39,7 +63,7 @@ export default defineComponent({
     return {
       formState,
       QURIOUS_CRAFTING_TYPE_OPTIONS,
-      QURIOUS_CRAFTING_SKILL_OPTIONS: QURIOUS_CRAFTING_SKILL,
+      QURIOUS_CRAFTING_SKILL_OPTIONS,
       ADD_BTN_DISABLED: computed(() => {
         for (const key in formState.value) {
           if (isEmpty(formState.value[key])) {
@@ -57,20 +81,20 @@ export default defineComponent({
 
 <template>
   <a-form :model="formState" :style="{ width: '300px' }">
-    <a-form-item label="装备箱.No">
+    <a-form-item :label="$t('ui.common.equipmentBoxNo')">
       <a-input-number
         v-model:value="formState.box"
-        placeholder="装备箱.No"
+        :placeholder="$t('ui.common.equipmentBoxNo')"
         :precision="0"
         :min="1"
         allow-clear
       />
     </a-form-item>
 
-    <a-form-item label="类型">
+    <a-form-item :label="$t('ui.common.type')">
       <a-select
         v-model:value="formState.type"
-        placeholder="类型"
+        :placeholder="$t('ui.common.type')"
         :options="QURIOUS_CRAFTING_TYPE_OPTIONS"
         option-filter-prop="label"
         show-search
@@ -79,10 +103,14 @@ export default defineComponent({
       />
     </a-form-item>
 
-    <a-form-item v-for="index in 7" :key="`技能${index}`" :label="`技能${index}`">
+    <a-form-item
+      v-for="index in 7"
+      :key="`skill${index}`"
+      :label="$t('ui.common.skillWithIndex', { index })"
+    >
       <a-tree-select
         v-model:value="formState[`skill${index}`]"
-        placeholder="技能"
+        :placeholder="$t('ui.common.skill')"
         :tree-data="QURIOUS_CRAFTING_SKILL_OPTIONS"
         tree-node-filter-prop="label"
         show-search
@@ -94,11 +122,16 @@ export default defineComponent({
     <a-form-item>
       <a-space>
         <a-button type="primary" ghost :disabled="ADD_BTN_DISABLED" @click="onAdd">
-          添加
+          {{ $t('ui.common.add') }}
         </a-button>
-        <a-popconfirm title="确定清空吗?" ok-text="Yes" cancel-text="No" @confirm="onClear">
+        <a-popconfirm
+          :title="$t('ui.common.confirmClear')"
+          :ok-text="$t('ui.common.yes')"
+          :cancel-text="$t('ui.common.no')"
+          @confirm="onClear"
+        >
           <a-button danger>
-            清空
+            {{ $t('ui.common.clear') }}
           </a-button>
         </a-popconfirm>
       </a-space>

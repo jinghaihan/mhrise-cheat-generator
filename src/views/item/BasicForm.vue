@@ -2,14 +2,20 @@
 import type { BasicFormState } from './constant'
 import { cloneDeep } from 'lodash-es'
 import { computed, defineComponent, ref } from 'vue'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { ITEM_TYPE } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { isEmpty, parseSelectOptions } from '@/utils'
 
 export default defineComponent({
   name: 'BasicForm',
   emits: ['add', 'clear'],
   setup(_, { emit }) {
-    const ITEM_TYPE_OPTIONS = parseSelectOptions(ITEM_TYPE, true)
+    const ITEM_TYPE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(ITEM_TYPE, true, {
+        i18nPrefix: ENUM_I18N_PREFIX.itemType,
+      }),
+    )
 
     const formState = ref({
       box: 1,
@@ -52,20 +58,20 @@ export default defineComponent({
 
 <template>
   <a-form :model="formState" layout="inline">
-    <a-form-item label="道具箱.No">
+    <a-form-item :label="$t('ui.item.boxNo')">
       <a-input-number
         v-model:value="formState.box"
-        placeholder="道具箱.No"
+        :placeholder="$t('ui.item.boxNo')"
         :precision="0"
         :min="1"
         allow-clear
       />
     </a-form-item>
 
-    <a-form-item label="道具">
+    <a-form-item :label="$t('ui.item.item')">
       <a-select
         v-model:value="formState.item"
-        placeholder="道具"
+        :placeholder="$t('ui.item.item')"
         :options="ITEM_TYPE_OPTIONS"
         option-filter-prop="label"
         show-search
@@ -74,10 +80,10 @@ export default defineComponent({
       />
     </a-form-item>
 
-    <a-form-item label="数量">
+    <a-form-item :label="$t('ui.common.count')">
       <a-input-number
         v-model:value="formState.count"
-        placeholder="数量"
+        :placeholder="$t('ui.common.count')"
         :precision="0"
         :min="0"
         :max="9999"
@@ -87,14 +93,19 @@ export default defineComponent({
 
     <a-form-item>
       <a-button type="primary" ghost :disabled="ADD_BTN_DISABLED" @click="onAdd">
-        添加
+        {{ $t('ui.common.add') }}
       </a-button>
     </a-form-item>
 
     <a-form-item>
-      <a-popconfirm title="确定清空吗?" ok-text="Yes" cancel-text="No" @confirm="onClear">
+      <a-popconfirm
+        :title="$t('ui.common.confirmClear')"
+        :ok-text="$t('ui.common.yes')"
+        :cancel-text="$t('ui.common.no')"
+        @confirm="onClear"
+      >
         <a-button danger>
-          清空
+          {{ $t('ui.common.clear') }}
         </a-button>
       </a-popconfirm>
     </a-form-item>

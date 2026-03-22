@@ -3,12 +3,13 @@ import type { ColumnData } from './constant'
 import { defineComponent, inject, ref } from 'vue'
 import { HorizontalLayout } from '@/components/TableLayout'
 import { useCheat } from '@/composables/useCheat'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 
-import { ANOMALY_QUEST_MONSTER_MAJOR } from '@/constants/database'
+import { ANOMALY_QUEST_LOCATION, ANOMALY_QUEST_MONSTER_MAJOR } from '@/constants/database'
 import { getTableScrollX } from '@/utils'
 
 import BasicForm from './BasicForm.vue'
-import { AnomalyQuest, columns, CUSTOM_ANOMALY_QUESTS } from './constant'
+import { AnomalyQuest, CUSTOM_ANOMALY_QUESTS, getColumns } from './constant'
 
 export default defineComponent({
   name: 'AnomalyQuest',
@@ -16,6 +17,7 @@ export default defineComponent({
   setup() {
     const { genCheat } = useCheat()
     const data = ref([] as ColumnData[])
+    const columns = useReactiveI18n(getColumns)
 
     const onSubmit = () => {
       if (data.value.length) {
@@ -34,8 +36,8 @@ export default defineComponent({
             new AnomalyQuest({
               index: 9999 - index,
               questIndex: 200 - index,
-              location,
-              monster1: monster,
+              location: ANOMALY_QUEST_LOCATION[location],
+              monster1: ANOMALY_QUEST_MONSTER_MAJOR[monster].code,
             }) as ColumnData,
           )
           index++
@@ -79,19 +81,19 @@ export default defineComponent({
 
       <template #operation>
         <a-button type="primary" :disabled="!data.length" @click="onSubmit">
-          加入购物车
+          {{ $t('ui.common.addToCart') }}
         </a-button>
         <a-popconfirm
-          ok-text="Yes"
-          cancel-text="No"
+          :ok-text="$t('ui.common.yes')"
+          :cancel-text="$t('ui.common.no')"
           @confirm="getAnomalyQuestList(true)"
           @cancel="getAnomalyQuestList(false)"
         >
           <template #title>
-            <p>该操作将会清除当前列表</p>
-            <p>是否同时添加精选任务？</p>
+            <p>{{ $t('ui.anomalyQuest.clearListTip') }}</p>
+            <p>{{ $t('ui.anomalyQuest.addSelectedQuestTip') }}</p>
           </template>
-          <a-button> 获取单怪任务 </a-button>
+          <a-button> {{ $t('ui.anomalyQuest.singleMonsterQuest') }} </a-button>
         </a-popconfirm>
       </template>
 
@@ -107,7 +109,7 @@ export default defineComponent({
           <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'monster'">
               <template v-for="index in 4" :key="`${record.box}_${index}`">
-                <a-tag v-if="record[`monster${index}`].label !== '无'" color="blue">
+                <a-tag v-if="record[`monster${index}`].value !== '0000,000B'" color="blue">
                   {{ record[`monster${index}`].label }}
                 </a-tag>
               </template>
@@ -115,13 +117,13 @@ export default defineComponent({
 
             <template v-if="column.key === 'action'">
               <a-popconfirm
-                title="确定删除吗?"
-                ok-text="Yes"
-                cancel-text="No"
+                :title="$t('ui.common.confirmDelete')"
+                :ok-text="$t('ui.common.yes')"
+                :cancel-text="$t('ui.common.no')"
                 @confirm="data = data.filter((item) => item.index !== record.index)"
               >
                 <a-button type="text" danger>
-                  删除
+                  {{ $t('ui.common.delete') }}
                 </a-button>
               </a-popconfirm>
             </template>

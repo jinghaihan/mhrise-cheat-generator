@@ -1,7 +1,9 @@
 <script lang="ts">
 import { cloneDeep } from 'lodash-es'
 import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { BUDDY_SKILL_PALICO } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { isEmpty, parseSelectOptions } from '@/utils'
 
 export default defineComponent({
@@ -13,7 +15,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const BUDDY_SKILL_PALICO_OPTIONS = parseSelectOptions(BUDDY_SKILL_PALICO, true)
+    const BUDDY_SKILL_PALICO_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(BUDDY_SKILL_PALICO, true, {
+        i18nPrefix: ENUM_I18N_PREFIX.buddyPalicoSkill,
+      }),
+    )
 
     const formState = ref({
       skill1: null,
@@ -49,14 +55,14 @@ export default defineComponent({
   <a-form :model="formState" hide-required-mark :style="{ width: '300px' }">
     <a-form-item
       v-for="index in 5"
-      :key="`技能${index}`"
-      :label="`技能${index}`"
+      :key="`skill${index}`"
+      :label="$t('ui.common.skillWithIndex', { index })"
       :name="`skill${index}`"
       :rules="[{ required: true }]"
     >
       <a-select
         v-model:value="formState[`skill${index}`]"
-        placeholder="技能"
+        :placeholder="$t('ui.common.skill')"
         :options="BUDDY_SKILL_PALICO_OPTIONS"
         option-filter-prop="label"
         show-search
@@ -68,7 +74,7 @@ export default defineComponent({
 
     <a-form-item :wrapper-col="{ offset: 20 }">
       <a-button type="primary" ghost :disabled="SAVE_BTN_DISABLED" size="small" @click="onSave">
-        保存
+        {{ $t('ui.common.save') }}
       </a-button>
     </a-form-item>
   </a-form>

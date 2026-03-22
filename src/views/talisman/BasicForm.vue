@@ -2,28 +2,45 @@
 import type { BasicFormState } from './constant'
 import { cloneDeep } from 'lodash-es'
 import { computed, defineComponent, ref } from 'vue'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { TALISMAN_SKILL, TALISMAN_SLOT, TALISMAN_TYPE } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { isEmpty, parseSelectOptions } from '@/utils'
 
 export default defineComponent({
   name: 'BasicForm',
   emits: ['add', 'clear'],
   setup(_, { emit }) {
-    const TALISMAN_TYPE_OPTIONS = parseSelectOptions(TALISMAN_TYPE, true)
-    const TALISMAN_SKILL_OPTIONS = parseSelectOptions(TALISMAN_SKILL, true)
-    const TALISMAN_SLOT_OPTIONS = parseSelectOptions(TALISMAN_SLOT)
+    const TALISMAN_TYPE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(TALISMAN_TYPE, true, {
+        i18nPrefix: ENUM_I18N_PREFIX.talismanType,
+      }),
+    )
+    const TALISMAN_SKILL_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(TALISMAN_SKILL, true, {
+        i18nPrefix: ENUM_I18N_PREFIX.talismanSkill,
+      }),
+    )
+    const TALISMAN_SLOT_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(TALISMAN_SLOT, false, {
+        i18nPrefix: ENUM_I18N_PREFIX.talismanSlot,
+        i18nIdBy: 'sourceKey',
+      }),
+    )
 
     const formState = ref({
       box: 201,
     } as BasicFormState)
 
     const reset = () => {
-      formState.value.type = TALISMAN_TYPE_OPTIONS.find(item => item.label === '圣贤护石')
+      formState.value.type = TALISMAN_TYPE_OPTIONS.value.find(item => item.value === '11')
       formState.value.skill1 = null
       formState.value.level1 = 0
       formState.value.skill2 = null
       formState.value.level2 = 0
-      formState.value.slot = TALISMAN_SLOT_OPTIONS.find(item => item.label === '4-1-1')
+      formState.value.slot = TALISMAN_SLOT_OPTIONS.value.find(
+        item => item.value === TALISMAN_SLOT['4-1-1'],
+      )
     }
     reset()
 
@@ -59,21 +76,21 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-form :model="formState" :style="{ width: '300px' }">
-    <a-form-item label="装备箱.No">
+  <a-form :model="formState" :style="{ width: '300px' }" :colon="false" label-align="left">
+    <a-form-item :label="$t('ui.common.equipmentBoxNo')">
       <a-input-number
         v-model:value="formState.box"
-        placeholder="装备箱.No"
+        :placeholder="$t('ui.common.equipmentBoxNo')"
         :precision="0"
         :min="1"
         allow-clear
       />
     </a-form-item>
 
-    <a-form-item label="类型">
+    <a-form-item :label="$t('ui.common.type')">
       <a-select
         v-model:value="formState.type"
-        placeholder="类型"
+        :placeholder="$t('ui.common.type')"
         :options="TALISMAN_TYPE_OPTIONS"
         option-filter-prop="label"
         show-search
@@ -82,11 +99,11 @@ export default defineComponent({
       />
     </a-form-item>
 
-    <a-form-item label="技能1">
+    <a-form-item :label="$t('ui.common.skillWithIndex', { index: 1 })">
       <a-input-group compact>
         <a-select
           v-model:value="formState.skill1"
-          placeholder="技能1"
+          :placeholder="$t('ui.common.skillWithIndex', { index: 1 })"
           :options="TALISMAN_SKILL_OPTIONS"
           option-filter-prop="label"
           show-search
@@ -106,11 +123,11 @@ export default defineComponent({
       </a-input-group>
     </a-form-item>
 
-    <a-form-item label="技能2">
+    <a-form-item :label="$t('ui.common.skillWithIndex', { index: 2 })">
       <a-input-group compact>
         <a-select
           v-model:value="formState.skill2"
-          placeholder="技能2"
+          :placeholder="$t('ui.common.skillWithIndex', { index: 2 })"
           :options="TALISMAN_SKILL_OPTIONS"
           option-filter-prop="label"
           show-search
@@ -130,10 +147,10 @@ export default defineComponent({
       </a-input-group>
     </a-form-item>
 
-    <a-form-item label="插槽">
+    <a-form-item :label="$t('ui.common.slot')">
       <a-select
         v-model:value="formState.slot"
-        placeholder="插槽"
+        :placeholder="$t('ui.common.slot')"
         :options="TALISMAN_SLOT_OPTIONS"
         option-filter-prop="label"
         show-search
@@ -145,11 +162,16 @@ export default defineComponent({
     <a-form-item>
       <a-space>
         <a-button type="primary" ghost :disabled="ADD_BTN_DISABLED" @click="onAdd">
-          添加
+          {{ $t('ui.common.add') }}
         </a-button>
-        <a-popconfirm title="确定清空吗?" ok-text="Yes" cancel-text="No" @confirm="onClear">
+        <a-popconfirm
+          :title="$t('ui.common.confirmClear')"
+          :ok-text="$t('ui.common.yes')"
+          :cancel-text="$t('ui.common.no')"
+          @confirm="onClear"
+        >
           <a-button danger>
-            清空
+            {{ $t('ui.common.clear') }}
           </a-button>
         </a-popconfirm>
       </a-space>

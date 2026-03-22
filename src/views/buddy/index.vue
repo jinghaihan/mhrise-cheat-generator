@@ -3,10 +3,11 @@ import type { ColumnData } from './constant'
 import { defineComponent, inject, ref } from 'vue'
 import { VerticalLayout } from '@/components/TableLayout'
 import { useCheat } from '@/composables/useCheat'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 
 import { getTableScrollX } from '@/utils'
 import BasicForm from './BasicForm.vue'
-import { columns } from './constant'
+import { getColumns } from './constant'
 import PalicoSkillForm from './PalicoSkillForm.vue'
 import SkillForm from './SkillForm.vue'
 
@@ -16,6 +17,7 @@ export default defineComponent({
   setup() {
     const { genCheat } = useCheat()
     const data = ref([] as ColumnData[])
+    const columns = useReactiveI18n(getColumns)
 
     const onSubmit = () => {
       if (data.value.length) {
@@ -51,7 +53,7 @@ export default defineComponent({
 
       <template #operation>
         <a-button type="primary" :disabled="!data.length" @click="onSubmit">
-          加入购物车
+          {{ $t('ui.common.addToCart') }}
         </a-button>
       </template>
 
@@ -66,9 +68,9 @@ export default defineComponent({
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'skill'">
-              <a-popover title="随从技能" placement="bottom" :trigger="['click']">
+              <a-popover :title="$t('ui.buddy.buddySkill')" placement="bottom" :trigger="['click']">
                 <span>
-                  <a-tag v-if="!record.skills" color="error"> Empty </a-tag>
+                  <a-tag v-if="!record.skills" color="error"> {{ $t('ui.common.empty') }} </a-tag>
                   <a-tag
                     v-for="(skill, index) in record.skills"
                     :key="`${skill.value}_${index}`"
@@ -92,9 +94,15 @@ export default defineComponent({
 
             <template v-if="column.dataIndex === 'palicoSkill'">
               <template v-if="record.type.value === 'PALICO'">
-                <a-popover title="支援行动" placement="bottom" :trigger="['click']">
+                <a-popover
+                  :title="$t('ui.buddy.supportAction')"
+                  placement="bottom"
+                  :trigger="['click']"
+                >
                   <span>
-                    <a-tag v-if="!record.palicoSkills" color="error"> Empty </a-tag>
+                    <a-tag v-if="!record.palicoSkills" color="error">
+                      {{ $t('ui.common.empty') }}
+                    </a-tag>
                     <a-tag
                       v-for="(skill, index) in record.palicoSkills"
                       :key="`${skill.value}_${index}`"
@@ -122,15 +130,15 @@ export default defineComponent({
 
             <template v-if="column.key === 'action'">
               <a-popconfirm
-                title="确定删除吗?"
-                ok-text="Yes"
-                cancel-text="No"
+                :title="$t('ui.common.confirmDelete')"
+                :ok-text="$t('ui.common.yes')"
+                :cancel-text="$t('ui.common.no')"
                 @confirm="
                   data = data.filter((item) => item.box !== record.box || item.type !== record.type)
                 "
               >
                 <a-button type="text" danger>
-                  删除
+                  {{ $t('ui.common.delete') }}
                 </a-button>
               </a-popconfirm>
             </template>

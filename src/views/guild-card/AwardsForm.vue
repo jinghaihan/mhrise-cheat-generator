@@ -4,7 +4,10 @@ import awardsSunbreak from '@/assets/images/awards/awards-sunbreak.png'
 import awards from '@/assets/images/awards/awards.png'
 import SpriteIcon from '@/components/SpriteIcon/index.vue'
 import { useCheat } from '@/composables/useCheat'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { GUILD_CARD_AWARDS } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
+import { getEnumLabel } from '@/utils'
 
 export default defineComponent({
   name: 'AwardsForm',
@@ -13,25 +16,41 @@ export default defineComponent({
     const data = ref({} as Record<string, boolean>)
     const checkAll = ref(false)
 
-    const GUILD_CARD_AWARDS_OPTIONS = Object.keys(GUILD_CARD_AWARDS).map((name) => {
-      data.value[name] = false
+    const AWARD_ENTRIES = Object.keys(GUILD_CARD_AWARDS).map((name) => {
+      const award = GUILD_CARD_AWARDS[name]
+      const awardKey = `${award.type}-${award.id}`
+      data.value[awardKey] = false
       return {
-        label: name,
-        value: GUILD_CARD_AWARDS[name],
+        key: awardKey,
+        sourceLabel: name,
+        value: award,
       }
     })
+    const GUILD_CARD_AWARDS_OPTIONS = useReactiveI18n(() =>
+      AWARD_ENTRIES.map((award) => {
+        return {
+          ...award,
+          label: getEnumLabel(ENUM_I18N_PREFIX.guildCardAwardName, award.key, award.sourceLabel),
+          description: getEnumLabel(
+            ENUM_I18N_PREFIX.guildCardAwardDescription,
+            award.key,
+            award.value.description,
+          ),
+        }
+      }),
+    )
 
     const { genCheat } = useCheat()
     const onSubmit = () => {
       if (Object.values(data.value).includes(true)) {
         const state = {} as Record<string, number>
-        Object.keys(data.value).forEach((name) => {
-          const type = GUILD_CARD_AWARDS[name].type
+        AWARD_ENTRIES.forEach((item) => {
+          const type = item.value.type
           if (!state[type]) {
             state[type] = 0
           }
-          if (data.value[name]) {
-            state[type] += Number.parseInt(GUILD_CARD_AWARDS[name].id, 16)
+          if (data.value[item.key]) {
+            state[type] += Number.parseInt(item.value.id, 16)
           }
         })
         genCheat('AWARDS', state)
@@ -39,18 +58,18 @@ export default defineComponent({
     }
 
     const checkAllChange = () => {
-      GUILD_CARD_AWARDS_OPTIONS.forEach((item) => {
+      AWARD_ENTRIES.forEach((item) => {
         if (checkAll.value) {
-          data.value[item.label] = true
+          data.value[item.key] = true
         }
         else {
-          data.value[item.label] = false
+          data.value[item.key] = false
         }
       })
     }
 
-    const onChange = (name: string) => {
-      data.value[name] = !data.value[name]
+    const onChange = (awardKey: string) => {
+      data.value[awardKey] = !data.value[awardKey]
     }
 
     return {
@@ -73,10 +92,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card title="勋章" size="small">
+  <a-card :title="$t('ui.guildCard.awards')" size="small">
     <template #extra>
       <a-space>
-        <a-tooltip title="请同时勾选已解锁勋章">
+        <a-tooltip :title="$t('ui.guildCard.awardsTip')">
           <Icon class="tip-icon" type="QuestionCircleOutlined" />
         </a-tooltip>
         <a-checkbox
@@ -84,7 +103,7 @@ export default defineComponent({
           :indeterminate="indeterminate"
           @change="checkAllChange"
         >
-          全勋章
+          {{ $t('ui.guildCard.allAwards') }}
         </a-checkbox>
       </a-space>
     </template>
@@ -92,18 +111,18 @@ export default defineComponent({
     <a-space :size="[8, 8]" wrap>
       <a-tooltip
         v-for="(award, index) in GUILD_CARD_AWARDS_OPTIONS"
-        :key="award.label"
+        :key="award.key"
         placement="top"
       >
         <template #title>
-          <p>名称：{{ award.label }}</p>
-          <p>描述：{{ award.value.description }}</p>
+          <p>{{ $t('ui.guildCard.name') }}: {{ award.label }}</p>
+          <p>{{ $t('ui.guildCard.description') }}: {{ award.description }}</p>
         </template>
         <a-badge status="color">
           <template #count>
-            <Icon v-show="data[award.label]" type="CheckCircleOutlined" />
+            <Icon v-show="data[award.key]" type="CheckCircleOutlined" />
           </template>
-          <a-card hoverable :style="{ width: '64px' }" @click="onChange(award.label)">
+          <a-card hoverable :style="{ width: '64px' }" @click="onChange(award.key)">
             <template #cover>
               <SpriteIcon
                 :images="index < 50 ? images.awards : images['awards-sunbreak']"

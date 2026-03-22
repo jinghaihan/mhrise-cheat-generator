@@ -84,10 +84,10 @@ export default defineComponent({
 
 <template>
   <a-form ref="formRef" :model="formState" hide-required-mark :style="{ width: '300px' }">
-    <a-form-item label="数量" name="count" :rules="[{ required: true }]">
+    <a-form-item :label="$t('ui.common.count')" name="count" :rules="[{ required: true }]">
       <a-input-number
         v-model:value="formState.count"
-        placeholder="数量"
+        :placeholder="$t('ui.common.count')"
         :precision="0"
         :min="0"
         :max="9999"
@@ -98,7 +98,7 @@ export default defineComponent({
 
     <a-form-item :wrapper-col="{ offset: 20 }">
       <a-button type="primary" ghost size="small" @click="onSubmit">
-        确定
+        {{ $t('ui.common.confirm') }}
       </a-button>
     </a-form-item>
   </a-form>

@@ -1,10 +1,13 @@
+import type { AppLocale } from '@/constants/i18n'
 import { defineStore } from 'pinia'
 import {
   USER_CART_STORE_KEY,
   USER_COMPACT_MODE_STORE_KEY,
+  USER_LOCALE_STORE_KEY,
   USER_THEME_STORE_KEY,
   USER_VERSION_STORE_KEY,
-} from '@/constants/storeSettings'
+} from '@/constants/settings'
+import { normalizeLocale } from '@/modules/i18n'
 
 export const useUserStore = defineStore('user', {
   state: (): {
@@ -12,6 +15,7 @@ export const useUserStore = defineStore('user', {
     compact: boolean
     version: string
     carts: CheatConfig[]
+    locale: AppLocale
   } => {
     return {
       theme: localStorage.getItem(USER_THEME_STORE_KEY)
@@ -24,6 +28,7 @@ export const useUserStore = defineStore('user', {
       carts: localStorage.getItem(USER_CART_STORE_KEY)
         ? JSON.parse(localStorage.getItem(USER_CART_STORE_KEY) as string)
         : [],
+      locale: normalizeLocale(localStorage.getItem(USER_LOCALE_STORE_KEY) || undefined),
     }
   },
   actions: {
@@ -65,6 +70,11 @@ export const useUserStore = defineStore('user', {
 
     updateVersionStore() {
       localStorage.setItem(USER_VERSION_STORE_KEY, this.version)
+    },
+
+    updateLocaleStore(locale: string) {
+      this.locale = normalizeLocale(locale)
+      localStorage.setItem(USER_LOCALE_STORE_KEY, this.locale)
     },
 
     changeTheme() {

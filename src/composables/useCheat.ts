@@ -11,6 +11,7 @@ import {
   QURIOUS_CRAFTING_CHEAT_POINTER,
   TALISMAN_CHEAT_POINTER,
 } from '@/constants/database'
+import { t } from '@/modules/i18n'
 import { useUserStore } from '@/modules/store'
 import { genBox, genCheatStr, genCount, genDoubleTime } from '@/utils'
 
@@ -36,7 +37,11 @@ export class CheatGenerator {
     const pointer = ITEM_CHEAT_POINTER[version]
 
     return {
-      title: `[Box.${data.start}-${data.end}道具 x${data.count}]`,
+      title: t('ui.cheat.itemQuantity', {
+        start: data.start,
+        end: data.end,
+        count: data.count,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000080`,
@@ -128,7 +133,10 @@ export class CheatGenerator {
     }
 
     return {
-      title: `[Box.${data.box}_怪异炼成·${data.type?.label}]`,
+      title: t('ui.cheat.quriousCrafting', {
+        box: data.box,
+        type: data.type?.label,
+      }),
       code: genCheatStr(codeStrs),
     }
   }
@@ -137,7 +145,7 @@ export class CheatGenerator {
     const pointer = ANOMALY_QUEST_CHEAT_POINTER[version]
 
     let title = ''
-    switch (Number(data.hunt?.label[0])) {
+    switch (Number.parseInt(data.hunt?.value || '0', 16)) {
       case 1:
         title = `${data.monster1?.label}`
         break
@@ -155,7 +163,11 @@ export class CheatGenerator {
     }
 
     return {
-      title: `[Slot.${data.questIndex}_怪异调查任务·${title}_${data.location?.label}]`,
+      title: t('ui.cheat.anomalyQuest', {
+        questIndex: data.questIndex,
+        title,
+        location: data.location?.label,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000100`,
@@ -223,7 +235,10 @@ export class CheatGenerator {
     const pointer = BUDDY_CHEAT_POINTER[version]
 
     return {
-      title: `[Box.${data.box}_${data.type?.label}_随从技能]`,
+      title: t('ui.cheat.buddySkill', {
+        box: data.box,
+        type: data.type?.label,
+      }),
       code:
         data.type?.value === 'PALICO'
           ? genCheatStr([
@@ -269,7 +284,10 @@ export class CheatGenerator {
     const pointer = BUDDY_CHEAT_POINTER[version]
 
     return {
-      title: `[Box.${data.box}_${data.type?.label}_支援行动]`,
+      title: t('ui.cheat.palicoSkill', {
+        box: data.box,
+        type: data.type?.label,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 000000B8`,
@@ -293,7 +311,7 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_RANK_CHEAT_POINTER[version]
 
     return {
-      title: `[猎人等级.${data.hunterRank?.label}]`,
+      title: t('ui.cheat.hunterRank', { rank: data.hunterRank?.label }),
       code: genCheatStr([
         `58020000 ${pointer}`,
         `58021000 00000068`,
@@ -307,7 +325,7 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_RANK_CHEAT_POINTER[version]
 
     return {
-      title: `[大师等级.${data.masterRank?.label}]`,
+      title: t('ui.cheat.masterRank', { rank: data.masterRank?.label }),
       code: genCheatStr([
         `58020000 ${pointer}`,
         `58021000 00000068`,
@@ -321,7 +339,7 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_RANK_CHEAT_POINTER[version]
 
     return {
-      title: `[怪异研究等级.${data.anomalyRank?.label}]`,
+      title: t('ui.cheat.anomalyRank', { rank: data.anomalyRank?.label }),
       code: genCheatStr([
         `58020000 ${pointer}`,
         `58021000 00000068`,
@@ -335,7 +353,10 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_ZENNY_POINTER[version]
 
     return {
-      title: `[金钱.${data.zenny}z/${data.overallZenny}z]`,
+      title: t('ui.cheat.zenny', {
+        zenny: data.zenny,
+        overallZenny: data.overallZenny,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000058`,
@@ -352,7 +373,7 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_ZENNY_POINTER[version]
 
     return {
-      title: `[炎火点数.${data.kamura}p]`,
+      title: t('ui.cheat.kamuraPoint', { kamura: data.kamura }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000060`,
@@ -366,7 +387,7 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
-      title: `[总游戏时间.${data.playDuration}h]`,
+      title: t('ui.cheat.playDuration', { playDuration: data.playDuration }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000070`,
@@ -387,7 +408,10 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
-      title: `[任务完成次数.${data.name} x${data.count}]`,
+      title: t('ui.cheat.questCompleteQuantity', {
+        name: data.name,
+        count: data.count,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000070`,
@@ -404,7 +428,10 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
-      title: `[总狩猎数.${data.hunt}_总捕获数${data.capture}]`,
+      title: t('ui.cheat.overallHuntRecord', {
+        hunt: data.hunt,
+        capture: data.capture,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000070`,
@@ -425,7 +452,11 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
-      title: `[武器使用次数.${data.weapon.label}_${data.quest.label} x${data.count}]`,
+      title: t('ui.cheat.weaponUsage', {
+        weapon: data.weapon.label,
+        quest: data.quest.label,
+        count: data.count,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000070`,
@@ -484,7 +515,11 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
-      title: `[斗技记录消除.${data.type?.label}_${data.quest?.label}_Slot.${data.slot}]`,
+      title: t('ui.cheat.arenaRecordRemove', {
+        type: data.type?.label,
+        quest: data.quest?.label,
+        slot: data.slot,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000070`,
@@ -524,7 +559,7 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
-      title: `[勋章]`,
+      title: t('ui.cheat.awards'),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000070`,
@@ -550,7 +585,7 @@ export class CheatGenerator {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
-      title: `[获赞次数.${data.like}]`,
+      title: t('ui.cheat.playerLike', { like: data.like }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000070`,
@@ -564,7 +599,7 @@ export class CheatGenerator {
     const pointer = FUNCTIONAL_QUEST_REWARD_MULTIPLE_TYPE_CHEAT_POINTER[version]
 
     return {
-      title: `任务报酬倍率.${data.multiple?.label}`,
+      title: t('ui.cheat.questRewardMultiplier', { multiple: data.multiple?.label }),
       code: genCheatStr([`040F0000 ${pointer} 0B0A${data.multiple?.value}29`]),
     }
   }
@@ -573,7 +608,10 @@ export class CheatGenerator {
     const pointer = FUNCTIONAL_QUEST_MONSTER_SIZE_CHEAT_POINTER[version]
 
     return {
-      title: `任务怪物体型.Slot.${data.slot} x${data.multiple?.label}`,
+      title: t('ui.cheat.questMonsterSize', {
+        slot: data.slot,
+        multiple: data.multiple?.label,
+      }),
       code: genCheatStr([
         `580F0000 ${pointer}`,
         `580F1000 00000080`,
@@ -590,7 +628,7 @@ export class CheatGenerator {
     const pointer = FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE_CHEAT_POINTER[version]
 
     return {
-      title: `猎人速度倍率 x${data.multiple?.label}`,
+      title: t('ui.cheat.hunterSpeed', { multiple: data.multiple?.label }),
       code: genCheatStr([`04020000 ${pointer} ${data.multiple?.value}`]),
     }
   }

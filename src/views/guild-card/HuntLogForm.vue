@@ -3,13 +3,33 @@ import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 import type { HuntLogFormState } from './constant'
 import { defineComponent, ref } from 'vue'
 import { useCheat } from '@/composables/useCheat'
-import { GUILD_CARD_MONSTER, GUILD_CARD_MONSTER_LOG_TYPE } from '@/constants/database'
-import { isEmpty } from '@/utils'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
+import { GUILD_CARD_MONSTER } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
+import { getEnumLabel, isEmpty } from '@/utils'
+
+const MONSTER_LOG_TYPE = {
+  hunt: '0138',
+  anomaly: '0140',
+  capture: '0150',
+  smallest: '0158',
+  largest: '0160',
+}
+
+const CAPTURE_DISABLED_TYPES = new Set(['elderDragon', 'apex'])
+const ANOMALY_DISABLED_TYPES = new Set(['elderDragon', 'apex', 'special'])
 
 export default defineComponent({
   name: 'HuntLogForm',
   setup() {
     const { genCheat } = useCheat()
+    const MONSTER_BY_ID = Object.keys(GUILD_CARD_MONSTER).reduce((result, name) => {
+      result[GUILD_CARD_MONSTER[name].id] = {
+        ...GUILD_CARD_MONSTER[name],
+        name,
+      }
+      return result
+    }, {} as Record<string, { id: string, name: string, type: string, smallest?: string, largest?: string }>)
 
     const formState = ref({
       overall: {
@@ -18,39 +38,39 @@ export default defineComponent({
       },
     } as HuntLogFormState)
 
-    const GUILD_CARD_MONSTER_OPTIONS = Object.keys(GUILD_CARD_MONSTER).map((name) => {
-      return {
-        label: name,
-        value: GUILD_CARD_MONSTER[name].id,
-      }
-    })
+    const GUILD_CARD_MONSTER_OPTIONS = useReactiveI18n(() =>
+      Object.values(MONSTER_BY_ID).map((monster) => {
+        return {
+          label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonster, monster.id, monster.name),
+          value: monster.id,
+        }
+      }),
+    )
 
     const images = {} as Record<string, string>
-    GUILD_CARD_MONSTER_OPTIONS.forEach((monster) => {
-      images[monster.value] = new URL(`../../assets/images/monster/${monster.value}.png`, import.meta.url).href
-      formState.value[monster.value] = {
-        monsterName: monster.label,
-      }
+    Object.values(MONSTER_BY_ID).forEach((monster) => {
+      images[monster.id] = new URL(`../../assets/images/monster/${monster.id}.png`, import.meta.url).href
+      formState.value[monster.id] = {}
     })
 
     const getSmallestMonsterData = (params: { monster: { label: string, value: string } }) => {
       return {
         ...params,
         type: {
-          label: '最小尺寸',
-          value: GUILD_CARD_MONSTER_LOG_TYPE['最小尺寸'],
+          label: getEnumLabel('ui.guildCard', 'smallestSize', '最小尺寸'),
+          value: MONSTER_LOG_TYPE.smallest,
         },
-        size: GUILD_CARD_MONSTER[params.monster.label].smallest as string,
+        size: MONSTER_BY_ID[params.monster.value].smallest as string,
       }
     }
     const getLargestMonsterData = (params: { monster: { label: string, value: string } }) => {
       return {
         ...params,
         type: {
-          label: '最大尺寸',
-          value: GUILD_CARD_MONSTER_LOG_TYPE['最大尺寸'],
+          label: getEnumLabel('ui.guildCard', 'largestSize', '最大尺寸'),
+          value: MONSTER_LOG_TYPE.largest,
         },
-        size: GUILD_CARD_MONSTER[params.monster.label].largest as string,
+        size: MONSTER_BY_ID[params.monster.value].largest as string,
       }
     }
 
@@ -63,7 +83,11 @@ export default defineComponent({
         .forEach((monster) => {
           const params = {
             monster: {
-              label: formState.value[monster].monsterName,
+              label: getEnumLabel(
+                ENUM_I18N_PREFIX.guildCardMonster,
+                monster,
+                MONSTER_BY_ID[monster]?.name || monster,
+              ),
               value: monster,
             },
           }
@@ -72,8 +96,8 @@ export default defineComponent({
               ...params,
               count: formState.value[monster].hunt,
               type: {
-                label: '狩猎数',
-                value: GUILD_CARD_MONSTER_LOG_TYPE['狩猎数'],
+                label: getEnumLabel('ui.guildCard', 'huntCount', '狩猎数'),
+                value: MONSTER_LOG_TYPE.hunt,
               },
             })
           }
@@ -82,8 +106,8 @@ export default defineComponent({
               ...params,
               count: formState.value[monster].capture,
               type: {
-                label: '捕获数',
-                value: GUILD_CARD_MONSTER_LOG_TYPE['捕获数'],
+                label: getEnumLabel('ui.guildCard', 'captureCount', '捕获数'),
+                value: MONSTER_LOG_TYPE.capture,
               },
             })
           }
@@ -92,8 +116,8 @@ export default defineComponent({
               ...params,
               count: formState.value[monster].anomaly,
               type: {
-                label: '怪异讨伐数',
-                value: GUILD_CARD_MONSTER_LOG_TYPE['怪异讨伐数'],
+                label: getEnumLabel('ui.guildCard', 'anomalyHuntCount', '怪异讨伐数'),
+                value: MONSTER_LOG_TYPE.anomaly,
               },
             })
           }
@@ -107,12 +131,14 @@ export default defineComponent({
     }
 
     const onCrown = () => {
-      GUILD_CARD_MONSTER_OPTIONS.forEach((monster) => {
-        if (
-          GUILD_CARD_MONSTER[monster.label].smallest
-          && GUILD_CARD_MONSTER[monster.label].largest
-        ) {
-          const params = { monster }
+      Object.values(MONSTER_BY_ID).forEach((monster) => {
+        if (monster.smallest && monster.largest) {
+          const params = {
+            monster: {
+              label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonster, monster.id, monster.name),
+              value: monster.id,
+            },
+          }
           genCheat('MONSTER_CROWN_SIZE', getSmallestMonsterData(params))
           genCheat('MONSTER_CROWN_SIZE', getLargestMonsterData(params))
         }
@@ -126,25 +152,25 @@ export default defineComponent({
       onSubmit,
       onCrown,
       IS_CAPTURE_DISABLED: (monster: LabelInValueType) => {
-        if (['古龙种', '霸主'].includes(GUILD_CARD_MONSTER[monster.label].type)) {
+        if (CAPTURE_DISABLED_TYPES.has(MONSTER_BY_ID[monster.value].type)) {
           return true
         }
         return false
       },
       IS_ANOMALY_DISABLED: (monster: LabelInValueType) => {
-        if (['古龙种', '霸主', 'SP'].includes(GUILD_CARD_MONSTER[monster.label].type)) {
+        if (ANOMALY_DISABLED_TYPES.has(MONSTER_BY_ID[monster.value].type)) {
           return true
         }
         return false
       },
       IS_SMALLEST_DISABLED: (monster: LabelInValueType) => {
-        if (!GUILD_CARD_MONSTER[monster.label].smallest) {
+        if (!MONSTER_BY_ID[monster.value].smallest) {
           return true
         }
         return false
       },
       IS_LARGEST_DISABLED: (monster: LabelInValueType) => {
-        if (!GUILD_CARD_MONSTER[monster.label].largest) {
+        if (!MONSTER_BY_ID[monster.value].largest) {
           return true
         }
         return false
@@ -155,21 +181,21 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card title="狩猎记录" size="small">
+  <a-card :title="$t('ui.guildCard.huntLog')" size="small">
     <template #extra>
       <a-space>
         <a-form :model="formState" layout="inline">
           <a-form-item>
             <template #label>
-              总狩猎数/总捕获数
-              <a-tooltip title="总狩猎数 = 总讨伐数 + 总捕获数">
+              {{ $t('ui.guildCard.totalHuntAndCapture') }}
+              <a-tooltip :title="$t('ui.guildCard.totalHuntFormula')">
                 <Icon class="tip-icon" type="QuestionCircleOutlined" />
               </a-tooltip>
             </template>
             <a-input-group compact>
               <a-input-number
                 v-model:value="formState.overall.hunt"
-                placeholder="总狩猎数"
+                :placeholder="$t('ui.guildCard.totalHuntCount')"
                 :precision="0"
                 :min="0"
                 allow-clear
@@ -177,7 +203,7 @@ export default defineComponent({
               />
               <a-input-number
                 v-model:value="formState.overall.capture"
-                placeholder="总捕获数"
+                :placeholder="$t('ui.guildCard.totalCaptureCount')"
                 :precision="0"
                 :min="0"
                 allow-clear
@@ -188,7 +214,7 @@ export default defineComponent({
         </a-form>
 
         <a-button type="primary" size="small" @click="onCrown">
-          全金冠
+          {{ $t('ui.guildCard.allGoldCrowns') }}
         </a-button>
       </a-space>
     </template>
@@ -213,15 +239,15 @@ export default defineComponent({
               <a-col :span="24">
                 <a-form-item>
                   <template #label>
-                    狩猎数/捕获数
-                    <a-tooltip title="狩猎数 = 讨伐数 + 捕获数">
+                    {{ $t('ui.guildCard.huntAndCapture') }}
+                    <a-tooltip :title="$t('ui.guildCard.huntFormula')">
                       <Icon class="tip-icon" type="QuestionCircleOutlined" />
                     </a-tooltip>
                   </template>
                   <a-input-group compact>
                     <a-input-number
                       v-model:value="formState[monster.value].hunt"
-                      placeholder="狩猎数"
+                      :placeholder="$t('ui.guildCard.huntCount')"
                       :precision="0"
                       :min="0"
                       allow-clear
@@ -229,7 +255,7 @@ export default defineComponent({
                     />
                     <a-input-number
                       v-model:value="formState[monster.value].capture"
-                      placeholder="捕获数"
+                      :placeholder="$t('ui.guildCard.captureCount')"
                       :precision="0"
                       :min="0"
                       allow-clear
@@ -240,10 +266,10 @@ export default defineComponent({
                 </a-form-item>
               </a-col>
               <a-col :span="24">
-                <a-form-item label="怪异讨伐数">
+                <a-form-item :label="$t('ui.guildCard.anomalyHuntCount')">
                   <a-input-number
                     v-model:value="formState[monster.value].anomaly"
-                    placeholder="怪异讨伐数"
+                    :placeholder="$t('ui.guildCard.anomalyHuntCount')"
                     :precision="0"
                     :min="0"
                     allow-clear
@@ -253,7 +279,7 @@ export default defineComponent({
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item label="最小尺寸">
+                <a-form-item :label="$t('ui.guildCard.smallestSize')">
                   <a-checkbox
                     v-model:checked="formState[monster.value].smallest"
                     :disabled="IS_SMALLEST_DISABLED(monster)"
@@ -261,7 +287,7 @@ export default defineComponent({
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item label="最大尺寸">
+                <a-form-item :label="$t('ui.guildCard.largestSize')">
                   <a-checkbox
                     v-model:checked="formState[monster.value].largest"
                     :disabled="IS_LARGEST_DISABLED(monster)"

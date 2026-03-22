@@ -1,10 +1,18 @@
 <script lang="ts">
 import { theme as themeAlgorithm } from 'ant-design-vue'
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import { computed, defineComponent, toRefs } from 'vue'
+import { computed, defineComponent, ref, toRefs, watch, watchEffect } from 'vue'
 import AppLayout from '@/components/AppLayout/index.vue'
-import { PREFIX_CLS, PRIMARY_COLOR } from '@/constants/projectSettings'
+import { PREFIX_CLS, PRIMARY_COLOR } from '@/constants/settings'
+import { setAppLocale } from '@/modules/i18n'
 import { useUserStore } from '@/modules/store'
+
+const antdLocaleLoaders = {
+  'zh': () => import('ant-design-vue/es/locale/zh_CN'),
+  'zh-Hant': () => import('ant-design-vue/es/locale/zh_TW'),
+  'en': () => import('ant-design-vue/es/locale/en_US'),
+  'ja': () => import('ant-design-vue/es/locale/ja_JP'),
+  'ko': () => import('ant-design-vue/es/locale/ko_KR'),
+} as const
 
 export default defineComponent({
   name: 'App',
@@ -17,10 +25,29 @@ export default defineComponent({
   },
   setup() {
     const userStore = useUserStore()
-    const { theme, compact } = toRefs(userStore)
+    const { theme, compact, locale } = toRefs(userStore)
+    const antdLocale = ref()
+    let localeRequestId = 0
+
+    watchEffect(() => {
+      void setAppLocale(locale.value)
+    })
+
+    watch(
+      locale,
+      async (nextLocale) => {
+        const requestId = ++localeRequestId
+        const loader = antdLocaleLoaders[nextLocale] || antdLocaleLoaders.zh
+        const module = await loader()
+        if (requestId === localeRequestId) {
+          antdLocale.value = module.default
+        }
+      },
+      { immediate: true },
+    )
 
     return {
-      locale: zhCN,
+      antdLocale,
       algorithm: computed(() => {
         const algorithm = [
           theme.value === 'light'
@@ -43,7 +70,8 @@ export default defineComponent({
 <template>
   <a-config-provider
     :prefix-cls="PREFIX_CLS"
-    :locale="locale"
+    :locale="antdLocale"
+    :form="{ colon: false }"
     :theme="{
       algorithm,
       token: { colorPrimary: PRIMARY_COLOR },

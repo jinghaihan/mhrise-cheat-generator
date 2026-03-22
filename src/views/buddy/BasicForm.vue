@@ -2,20 +2,28 @@
 import type { BasicFormState } from './constant'
 import { cloneDeep } from 'lodash-es'
 import { computed, defineComponent, ref } from 'vue'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { BUDDY_LEVEL, BUDDY_TYPE } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { isEmpty, parseSelectOptions } from '@/utils'
 
 export default defineComponent({
   name: 'BasicForm',
   emits: ['add', 'clear'],
   setup(_, { emit }) {
-    const BUDDY_TYPE_OPTIONS = parseSelectOptions(BUDDY_TYPE)
-    const BUDDY_LEVEL_OPTIONS = parseSelectOptions(BUDDY_LEVEL)
+    const BUDDY_TYPE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(BUDDY_TYPE, false, {
+        i18nPrefix: ENUM_I18N_PREFIX.buddyType,
+      }),
+    )
+    const BUDDY_LEVEL_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(BUDDY_LEVEL),
+    )
 
     const formState = ref({
       box: 1,
-      type: BUDDY_TYPE_OPTIONS.find(item => item.label === '艾露猫'),
-      level: BUDDY_LEVEL_OPTIONS.find(item => item.label === '49'),
+      type: BUDDY_TYPE_OPTIONS.value.find(item => item.value === 'PALICO'),
+      level: BUDDY_LEVEL_OPTIONS.value.find(item => item.label === '49'),
     } as BasicFormState)
 
     const onAdd = () => {
@@ -46,10 +54,10 @@ export default defineComponent({
 
 <template>
   <a-form layout="inline" :model="formState">
-    <a-form-item label="类型">
+    <a-form-item :label="$t('ui.common.type')">
       <a-select
         v-model:value="formState.type"
-        placeholder="类型"
+        :placeholder="$t('ui.common.type')"
         :options="BUDDY_TYPE_OPTIONS"
         option-filter-prop="label"
         show-search
@@ -58,20 +66,20 @@ export default defineComponent({
       />
     </a-form-item>
 
-    <a-form-item label="栏位.No">
+    <a-form-item :label="$t('ui.common.slotNo')">
       <a-input-number
         v-model:value="formState.box"
-        placeholder="栏位.No"
+        :placeholder="$t('ui.common.slotNo')"
         :precision="0"
         :min="1"
         allow-clear
       />
     </a-form-item>
 
-    <a-form-item label="等级">
+    <a-form-item :label="$t('ui.common.level')">
       <a-select
         v-model:value="formState.level"
-        placeholder="等级"
+        :placeholder="$t('ui.common.level')"
         :options="BUDDY_LEVEL_OPTIONS"
         option-filter-prop="label"
         show-search
@@ -82,14 +90,19 @@ export default defineComponent({
 
     <a-form-item>
       <a-button type="primary" ghost :disabled="ADD_BTN_DISABLED" @click="onAdd">
-        添加
+        {{ $t('ui.common.add') }}
       </a-button>
     </a-form-item>
 
     <a-form-item>
-      <a-popconfirm title="确定清空吗?" ok-text="Yes" cancel-text="No" @confirm="onClear">
+      <a-popconfirm
+        :title="$t('ui.common.confirmClear')"
+        :ok-text="$t('ui.common.yes')"
+        :cancel-text="$t('ui.common.no')"
+        @confirm="onClear"
+      >
         <a-button danger>
-          清空
+          {{ $t('ui.common.clear') }}
         </a-button>
       </a-popconfirm>
     </a-form-item>

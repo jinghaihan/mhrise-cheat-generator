@@ -1,3 +1,5 @@
+import { t } from '@/modules/i18n'
+
 export type ColumnData = ItemConfig
 
 export interface BasicFormState {
@@ -13,36 +15,38 @@ export interface OverallItemFormState {
   count: number
 }
 
-export const columns = [
-  {
-    title: '道具ID',
-    dataIndex: 'id',
-    ellipsis: true,
-    customRender: ({ record }: { record: ColumnData }) => {
-      return record.item?.value
+export function getColumns() {
+  return [
+    {
+      title: t('ui.item.table.itemId'),
+      dataIndex: 'id',
+      ellipsis: true,
+      customRender: ({ record }: { record: ColumnData }) => {
+        return record.item?.value
+      },
     },
-  },
-  {
-    title: '道具名称',
-    dataIndex: 'item',
-    ellipsis: true,
-    customRender: ({ record }: { record: ColumnData }) => {
-      return record.item?.label
+    {
+      title: t('ui.item.table.itemName'),
+      dataIndex: 'item',
+      ellipsis: true,
+      customRender: ({ record }: { record: ColumnData }) => {
+        return record.item?.label
+      },
     },
-  },
-  {
-    title: '道具箱.No',
-    dataIndex: 'box',
-    ellipsis: true,
-    sorter: (a: ColumnData, b: ColumnData) => a.box - b.box,
-  },
-  {
-    title: '数量',
-    dataIndex: 'count',
-    ellipsis: true,
-  },
-  {
-    title: '操作',
-    key: 'action',
-  },
-]
+    {
+      title: t('ui.item.boxNo'),
+      dataIndex: 'box',
+      ellipsis: true,
+      sorter: (a: ColumnData, b: ColumnData) => a.box - b.box,
+    },
+    {
+      title: t('ui.common.count'),
+      dataIndex: 'count',
+      ellipsis: true,
+    },
+    {
+      title: t('ui.common.action'),
+      key: 'action',
+    },
+  ]
+}

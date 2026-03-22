@@ -61,7 +61,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card title="功能清单" size="small">
+  <a-card :title="$t('ui.functional.cheatList')" size="small">
     <div class="space">
       <div class="left-space">
         <a-collapse v-model:active-key="activeKey" :bordered="false">

@@ -3,11 +3,12 @@ import saveAs from 'file-saver'
 
 import JSZip from 'jszip'
 import { BUILD_ID, TITLE_ID } from '@/constants/database'
+import { t } from '@/modules/i18n'
 
 export function downloadCheat(version: string, data: string | string[]) {
   Modal.confirm({
-    title: '请自行备份存档',
-    content: '本系统为了个人游玩离线游戏而制作，请勿在线上模式使用，本人不承担存档损坏等责任',
+    title: t('ui.download.backupTitle'),
+    content: t('ui.download.backupContent'),
     onOk() {
       const zip = new JSZip()
       zip.file('MONSTER HUNTER RISE.txt', '')

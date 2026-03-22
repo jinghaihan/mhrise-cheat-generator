@@ -6,7 +6,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'item',
     component: () => import('@/views/item/index.vue'),
     meta: {
-      title: '杂货店',
+      titleKey: 'ui.route.item',
       icon: 'ShopOutlined',
     },
   },
@@ -15,7 +15,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'talisman',
     component: () => import('@/views/talisman/index.vue'),
     meta: {
-      title: '神秘炼金',
+      titleKey: 'ui.route.talisman',
       icon: 'ExperimentOutlined',
     },
   },
@@ -24,7 +24,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'qurious-crafting',
     component: () => import('@/views/qurious-crafting/index.vue'),
     meta: {
-      title: '怪异炼成',
+      titleKey: 'ui.route.quriousCrafting',
       icon: 'CalculatorOutlined',
     },
   },
@@ -33,7 +33,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'anomaly-quest',
     component: () => import('@/views/anomaly-quest/index.vue'),
     meta: {
-      title: '怪异调查任务',
+      titleKey: 'ui.route.anomalyQuest',
       icon: 'MonitorOutlined',
     },
   },
@@ -42,7 +42,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'buddy',
     component: () => import('@/views/buddy/index.vue'),
     meta: {
-      title: '随从看板',
+      titleKey: 'ui.route.buddy',
       icon: 'BellOutlined',
     },
   },
@@ -51,7 +51,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'guild-card',
     component: () => import('@/views/guild-card/index.vue'),
     meta: {
-      title: '公会卡片',
+      titleKey: 'ui.route.guildCard',
       icon: 'IdcardOutlined',
     },
   },
@@ -60,7 +60,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'functional-list',
     component: () => import('@/views/functional-list/index.vue'),
     meta: {
-      title: '功能列表',
+      titleKey: 'ui.route.functionalList',
       icon: 'FunctionOutlined',
     },
   },

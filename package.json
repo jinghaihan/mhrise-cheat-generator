@@ -23,6 +23,7 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
+    "vue-i18n": "catalog:",
     "@ant-design/icons-vue": "catalog:frontend",
     "@unhead/vue": "catalog:frontend",
     "ant-design-vue": "catalog:frontend",
@@ -39,6 +40,7 @@
     "@vitejs/plugin-vue-jsx": "catalog:build",
     "vite": "catalog:build",
     "vite-plugin-svg-icons": "catalog:build",
+    "fast-glob": "catalog:dev",
     "less": "catalog:dev",
     "less-loader": "catalog:dev",
     "pncat": "catalog:dev",

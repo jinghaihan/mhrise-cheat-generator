@@ -2,14 +2,18 @@
 import type { HunterSpeedFormState } from './constant'
 import { defineComponent, ref } from 'vue'
 import { useCheat } from '@/composables/useCheat'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { parseSelectOptions } from '@/utils'
 
 export default defineComponent({
   name: 'HunterSpeedForm',
   setup() {
-    const FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE_OPTIONS = parseSelectOptions(
-      FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE,
+    const FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE, false, {
+        i18nPrefix: ENUM_I18N_PREFIX.functionalHunterSpeed,
+      }),
     )
 
     const formState = ref({
@@ -36,17 +40,17 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card title="猎人速率" size="small">
+  <a-card :title="$t('ui.functional.hunterSpeed')" size="small">
     <template #extra>
       <a-button type="primary" size="small" @click="onSubmit">
-        添加
+        {{ $t('ui.common.add') }}
       </a-button>
     </template>
     <a-form :model="formState">
-      <a-form-item label="猎人速率">
+      <a-form-item :label="$t('ui.functional.hunterSpeed')">
         <a-select
           v-model:value="formState.multiple"
-          placeholder="猎人速率"
+          :placeholder="$t('ui.functional.hunterSpeed')"
           :options="FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE_OPTIONS"
           option-filter-prop="label"
           show-search

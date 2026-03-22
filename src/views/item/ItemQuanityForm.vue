@@ -35,30 +35,30 @@ export default defineComponent({
 
 <template>
   <a-form ref="formRef" :model="formState" hide-required-mark :style="{ width: '300px' }">
-    <a-form-item label="开始编号" name="start" :rules="[{ required: true }]">
+    <a-form-item :label="$t('ui.item.startNo')" name="start" :rules="[{ required: true }]">
       <a-input-number
         v-model:value="formState.start"
-        placeholder="开始编号"
+        :placeholder="$t('ui.item.startNo')"
         :precision="0"
         :min="1"
         allow-clear
         :style="{ width: '100%' }"
       />
     </a-form-item>
-    <a-form-item label="结束编号" name="end" :rules="[{ required: true }]">
+    <a-form-item :label="$t('ui.item.endNo')" name="end" :rules="[{ required: true }]">
       <a-input-number
         v-model:value="formState.end"
-        placeholder="结束编号"
+        :placeholder="$t('ui.item.endNo')"
         :precision="0"
         :min="1"
         allow-clear
         :style="{ width: '100%' }"
       />
     </a-form-item>
-    <a-form-item label="数量" name="count" :rules="[{ required: true }]">
+    <a-form-item :label="$t('ui.common.count')" name="count" :rules="[{ required: true }]">
       <a-input-number
         v-model:value="formState.count"
-        placeholder="数量"
+        :placeholder="$t('ui.common.count')"
         :precision="0"
         :min="0"
         :max="9999"
@@ -68,7 +68,7 @@ export default defineComponent({
     </a-form-item>
     <a-form-item :wrapper-col="{ offset: 20 }">
       <a-button type="primary" ghost size="small" @click="onSubmit">
-        确定
+        {{ $t('ui.common.confirm') }}
       </a-button>
     </a-form-item>
   </a-form>

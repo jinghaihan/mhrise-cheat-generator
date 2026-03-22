@@ -2,14 +2,18 @@
 import type { QuestMonsterSizeFormState } from './constant'
 import { defineComponent, ref } from 'vue'
 import { useCheat } from '@/composables/useCheat'
+import { useReactiveI18n } from '@/composables/useReactiveI18n'
 import { FUNCTIONAL_QUEST_MONSTER_SIZE } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { parseSelectOptions } from '@/utils'
 
 export default defineComponent({
   name: 'QuestMonsterSizeForm',
   setup() {
-    const FUNCTIONAL_QUEST_MONSTER_SIZE_OPTIONS = parseSelectOptions(
-      FUNCTIONAL_QUEST_MONSTER_SIZE,
+    const FUNCTIONAL_QUEST_MONSTER_SIZE_OPTIONS = useReactiveI18n(() =>
+      parseSelectOptions(FUNCTIONAL_QUEST_MONSTER_SIZE, false, {
+        i18nPrefix: ENUM_I18N_PREFIX.functionalQuestMonsterSize,
+      }),
     )
 
     const formState = ref({
@@ -37,17 +41,17 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card title="任务怪物体型" size="small">
+  <a-card :title="$t('ui.functional.questMonsterSize')" size="small">
     <template #extra>
       <a-button type="primary" size="small" @click="onSubmit">
-        添加
+        {{ $t('ui.common.add') }}
       </a-button>
     </template>
     <a-form :model="formState">
-      <a-form-item label="栏位.No">
+      <a-form-item :label="$t('ui.common.slotNo')">
         <a-input-number
           v-model:value="formState.slot"
-          placeholder="栏位.No"
+          :placeholder="$t('ui.common.slotNo')"
           :precision="0"
           :min="1"
           :max="3"
@@ -55,10 +59,10 @@ export default defineComponent({
           :style="{ width: '100%' }"
         />
       </a-form-item>
-      <a-form-item label="体型倍率">
+      <a-form-item :label="$t('ui.functional.sizeMultiplier')">
         <a-select
           v-model:value="formState.multiple"
-          placeholder="体型倍率"
+          :placeholder="$t('ui.functional.sizeMultiplier')"
           :options="FUNCTIONAL_QUEST_MONSTER_SIZE_OPTIONS"
           option-filter-prop="label"
           show-search

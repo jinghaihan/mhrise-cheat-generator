@@ -33,7 +33,7 @@ export default defineComponent({
   <Action
     v-for="route in routes"
     :key="route.name"
-    :title="route.meta?.title"
+    :title="$t((route.meta?.titleKey as string) || '')"
     placement="right"
     :icon="route.meta?.icon"
     :active="getIsActive(route)"

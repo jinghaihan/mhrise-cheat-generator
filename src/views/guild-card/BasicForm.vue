@@ -64,13 +64,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card title="基本信息" size="small">
+  <a-card :title="$t('ui.guildCard.basicInfo')" size="small">
     <a-form :model="formState" layout="vertical">
-      <a-form-item label="金钱">
+      <a-form-item :label="$t('ui.guildCard.zenny')">
         <a-input-group compact>
           <a-input-number
             v-model:value="formState.zenny"
-            placeholder="金钱"
+            :placeholder="$t('ui.guildCard.zenny')"
             :precision="0"
             :min="1"
             :max="99999999"
@@ -79,7 +79,7 @@ export default defineComponent({
           />
           <a-input-number
             v-model:value="formState.overallZenny"
-            placeholder="总金钱"
+            :placeholder="$t('ui.guildCard.totalZenny')"
             :precision="0"
             :min="1"
             allow-clear
@@ -87,10 +87,10 @@ export default defineComponent({
           />
         </a-input-group>
       </a-form-item>
-      <a-form-item label="炎火点数">
+      <a-form-item :label="$t('ui.guildCard.kamuraPoint')">
         <a-input-number
           v-model:value="formState.kamura"
-          placeholder="炎火点数"
+          :placeholder="$t('ui.guildCard.kamuraPoint')"
           :precision="0"
           :min="1"
           :max="99999999"
@@ -98,31 +98,31 @@ export default defineComponent({
           :style="{ width: '100%' }"
         />
       </a-form-item>
-      <a-form-item label="总游戏时间">
+      <a-form-item :label="$t('ui.guildCard.playDuration')">
         <a-input-number
           v-model:value="formState.playDuration"
-          placeholder="总游戏时间"
+          :placeholder="$t('ui.guildCard.playDuration')"
           :precision="0"
           :min="0"
           allow-clear
           :style="{ width: '100%' }"
-          addon-after="小时"
+          :addon-after="$t('ui.guildCard.hour')"
         />
       </a-form-item>
-      <a-form-item label="获赞次数">
+      <a-form-item :label="$t('ui.guildCard.likes')">
         <a-input-number
           v-model:value="formState.like"
-          placeholder="获赞次数"
+          :placeholder="$t('ui.guildCard.likes')"
           :precision="0"
           :min="0"
           allow-clear
           :style="{ width: '100%' }"
         />
       </a-form-item>
-      <a-form-item label="猎人等级">
+      <a-form-item :label="$t('ui.guildCard.hunterRank')">
         <a-select
           v-model:value="formState.hunterRank"
-          placeholder="猎人等级"
+          :placeholder="$t('ui.guildCard.hunterRank')"
           :options="GUILD_CARD_HUNTER_RANK_EXP_OPTIONS"
           option-filter-prop="label"
           show-search
@@ -130,10 +130,10 @@ export default defineComponent({
           allow-clear
         />
       </a-form-item>
-      <a-form-item label="大师等级">
+      <a-form-item :label="$t('ui.guildCard.masterRank')">
         <a-select
           v-model:value="formState.masterRank"
-          placeholder="大师等级"
+          :placeholder="$t('ui.guildCard.masterRank')"
           :options="GUILD_CARD_MASTER_RANK_EXP_OPTIONS"
           option-filter-prop="label"
           show-search
@@ -141,10 +141,10 @@ export default defineComponent({
           allow-clear
         />
       </a-form-item>
-      <a-form-item label="怪异研究等级">
+      <a-form-item :label="$t('ui.guildCard.anomalyRank')">
         <a-select
           v-model:value="formState.anomalyRank"
-          placeholder="怪异研究等级"
+          :placeholder="$t('ui.guildCard.anomalyRank')"
           :options="GUILD_CARD_ANOMALY_RANK_EXP_OPTIONS"
           option-filter-prop="label"
           show-search

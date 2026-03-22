@@ -1,12 +1,15 @@
 <script lang="ts">
-import { defineComponent, ref, toRefs } from 'vue'
+import { computed, defineComponent, ref, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { BUILD_ID } from '@/constants/database'
+import { LOCALE_LABEL, SUPPORTED_LOCALES } from '@/constants/i18n'
 import { useUserStore } from '@/modules/store'
 import { downloadCheat } from '@/utils'
 
 export default defineComponent({
   name: 'SiderBottomBar',
   setup() {
+    const { t } = useI18n()
     const BUILD_ID_OPTIONS = Object.keys(BUILD_ID).map((ver) => {
       return {
         label: ver,
@@ -15,8 +18,16 @@ export default defineComponent({
     })
     const drawerVisible = ref(false)
     const userStore = useUserStore()
-    const { theme, version, carts } = toRefs(userStore)
+    const { theme, version, carts, locale } = toRefs(userStore)
     version.value = version.value || BUILD_ID_OPTIONS[0].value
+    const LOCALE_OPTIONS = computed(() => {
+      return SUPPORTED_LOCALES.map((item) => {
+        return {
+          label: LOCALE_LABEL[item],
+          value: item,
+        }
+      })
+    })
 
     const onDelete = (item: { title: string, code: string }) => {
       userStore.removeCart(item)
@@ -44,6 +55,9 @@ export default defineComponent({
       theme,
       version,
       carts,
+      locale,
+      LOCALE_OPTIONS,
+      t,
       drawerVisible,
       onDelete,
       onClear,
@@ -57,7 +71,7 @@ export default defineComponent({
 <template>
   <a-badge :count="carts.length" :show-zero="true" :offset="[-8, 8]">
     <Action
-      title="购物车"
+      :title="$t('ui.sidebar.cart')"
       placement="right"
       icon="ShoppingCartOutlined"
       @click="
@@ -68,30 +82,36 @@ export default defineComponent({
     />
   </a-badge>
 
-  <a-badge dot :offset="[-8, 8]">
-    <a-popover title="游戏版本" :trigger="['click']" placement="right">
-      <Action icon="SettingOutlined" />
-      <template #content>
+  <a-popover :title="$t('ui.sidebar.setting')" :trigger="['click']" placement="right">
+    <Action icon="SettingOutlined" />
+    <template #content>
+      <a-space direction="vertical" :size="8">
         <a-select
           v-model:value="version"
-          placeholder="游戏版本"
+          :placeholder="$t('ui.sidebar.gameVersion')"
           :options="BUILD_ID_OPTIONS"
           :disabled="carts.length"
           @change="userStore.updateVersionStore"
         />
-      </template>
-    </a-popover>
-  </a-badge>
+        <a-select
+          v-model:value="locale"
+          :placeholder="$t('ui.sidebar.locale')"
+          :options="LOCALE_OPTIONS"
+          @change="userStore.updateLocaleStore"
+        />
+      </a-space>
+    </template>
+  </a-popover>
 
   <Action
-    :title="theme === 'light' ? '暗色主题' : '亮色主题'"
+    :title="theme === 'light' ? $t('ui.sidebar.darkTheme') : $t('ui.sidebar.lightTheme')"
     placement="right"
     :icon="theme === 'light' ? 'svg-moon' : 'svg-sun'"
     @click="userStore.changeTheme"
   />
 
   <Action
-    title="紧凑模式"
+    :title="$t('ui.sidebar.compactMode')"
     placement="right"
     icon="CompressOutlined"
     @click="userStore.changeCompactMode"
@@ -106,7 +126,7 @@ export default defineComponent({
 
   <a-drawer
     v-model:open="drawerVisible"
-    :title="`购物车[${version}]`"
+    :title="$t('ui.sidebar.cartWithVersion', { version })"
     :body-style="{
       padding: 0,
     }"
@@ -114,17 +134,17 @@ export default defineComponent({
     <template #extra>
       <a-space>
         <a-button type="primary" ghost :disabled="!carts.length" size="small" @click="onDownload">
-          下载
+          {{ $t('ui.common.download') }}
         </a-button>
         <a-popconfirm
           placement="leftTop"
-          title="确定清空吗?"
-          ok-text="Yes"
-          cancel-text="No"
+          :title="$t('ui.common.confirmClear')"
+          :ok-text="$t('ui.common.yes')"
+          :cancel-text="$t('ui.common.no')"
           @confirm="onClear"
         >
           <a-button danger size="small">
-            清空
+            {{ $t('ui.common.clear') }}
           </a-button>
         </a-popconfirm>
       </a-space>
@@ -135,9 +155,9 @@ export default defineComponent({
         <pre>{{ item.code }}</pre>
         <template #extra>
           <a-popconfirm
-            title="确定删除吗?"
-            ok-text="Yes"
-            cancel-text="No"
+            :title="$t('ui.common.confirmDelete')"
+            :ok-text="$t('ui.common.yes')"
+            :cancel-text="$t('ui.common.no')"
             placement="left"
             @confirm="onDelete(item)"
           >
