@@ -49,7 +49,7 @@ export const useUserStore = defineStore('user', {
       }
       const value = Array.isArray(data) ? data : [data]
       for (const item of value) {
-        if (!this.carts.find(i => i.code === item.code)) {
+        if (!this.carts.some(i => i.code === item.code)) {
           return false
         }
       }

@@ -1,0 +1,36 @@
+packages: []
+catalogs:
+  build:
+    '@vitejs/plugin-vue': ^6.0.5
+    '@vitejs/plugin-vue-jsx': ^5.1.5
+    vite: ^8.0.1
+    vite-plugin-svg-icons: ^2.0.1
+  dev:
+    less: ^4.6.4
+    less-loader: ^12.3.2
+    pncat: ^0.11.0
+    simple-git-hooks: ^2.13.1
+    taze: ^19.10.0
+    typescript: ^5.9.3
+  frontend:
+    '@ant-design/icons-vue': ^7.0.1
+    '@unhead/vue': ^2.1.12
+    ant-design-vue: ^4.2.6
+    pinia: ^3.0.4
+    vue: ^3.5.30
+    vue-router: ^5.0.4
+  lint:
+    '@octohash/eslint-config': ^0.2.9
+    eslint: ^10.1.0
+    lint-staged: ^16.4.0
+    vue-tsc: ^3.2.6
+  prod:
+    file-saver: ^2.0.5
+    jszip: ^3.10.1
+    lodash-es: ^4.17.23
+    xlsx: ^0.18.5
+  test:
+    vitest: ^4.1.0
+  types:
+    '@types/file-saver': ^2.0.7
+    '@types/lodash-es': ^4.17.12
