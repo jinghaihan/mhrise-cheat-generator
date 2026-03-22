@@ -8,6 +8,7 @@ import {
   ANOMALY_QUEST_HUNT,
   ANOMALY_QUEST_LOCATION,
   ANOMALY_QUEST_MONSTER,
+  ANOMALY_QUEST_MONSTER_CODE_TO_I18N_KEY,
   ANOMALY_QUEST_MONSTER_MAJOR,
   ANOMALY_QUEST_PLAYERQTY,
   ANOMALY_QUEST_SP,
@@ -35,8 +36,9 @@ export default defineComponent({
     const ANOMALY_QUEST_MONSTER_MAJOR_OPTIONS = useReactiveI18n(() =>
       Object.keys(ANOMALY_QUEST_MONSTER_MAJOR).map((name) => {
         const code = ANOMALY_QUEST_MONSTER_MAJOR[name].code
+        const i18nId = ANOMALY_QUEST_MONSTER_CODE_TO_I18N_KEY[code] || code
         return {
-          label: getEnumLabel(ENUM_I18N_PREFIX.anomalyQuestMonster, code, name),
+          label: getEnumLabel(ENUM_I18N_PREFIX.anomalyQuestMonster, i18nId, name),
           value: code,
           sourceKey: name,
           sourceLabel: name,
@@ -44,8 +46,15 @@ export default defineComponent({
       }),
     )
     const ANOMALY_QUEST_MONSTER_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_MONSTER, false, {
-        i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestMonster,
+      Object.keys(ANOMALY_QUEST_MONSTER).map((name) => {
+        const code = ANOMALY_QUEST_MONSTER[name]
+        const i18nId = ANOMALY_QUEST_MONSTER_CODE_TO_I18N_KEY[code] || code
+        return {
+          label: getEnumLabel(ENUM_I18N_PREFIX.anomalyQuestMonster, i18nId, name),
+          value: code,
+          sourceKey: name,
+          sourceLabel: name,
+        }
       }),
     )
     const ANOMALY_QUEST_LOCATION_OPTIONS = useReactiveI18n(() =>

@@ -4,7 +4,11 @@ import type { BasicFormState } from './constant'
 import { cloneDeep } from 'lodash-es'
 import { computed, defineComponent, ref } from 'vue'
 import { useReactiveI18n } from '@/composables/useReactiveI18n'
-import { QURIOUS_CRAFTING_SKILL, QURIOUS_CRAFTING_TYPE } from '@/constants/database'
+import {
+  QURIOUS_CRAFTING_ATTRIBUTE_VALUE_TO_KEY,
+  QURIOUS_CRAFTING_SKILL,
+  QURIOUS_CRAFTING_TYPE,
+} from '@/constants/database'
 import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { getEnumLabel, isEmpty, parseSelectOptions } from '@/utils'
 
@@ -18,17 +22,30 @@ export default defineComponent({
       }),
     )
     const QURIOUS_CRAFTING_SKILL_OPTIONS = useReactiveI18n(() => {
+      const formatSkillLabel = (node: any, fallback: string) => {
+        if (node.sharedSkillKey) {
+          const skillName = getEnumLabel('skill', String(node.sharedSkillKey), fallback)
+          if (node.skillDelta === 1) {
+            return `【C${node.skillCost}】${skillName} +1`
+          }
+          if (node.skillDelta === -1) {
+            return `${skillName} -1`
+          }
+          return skillName
+        }
+
+        const attributeKey = QURIOUS_CRAFTING_ATTRIBUTE_VALUE_TO_KEY[String(node.value)]
+        const i18nId = attributeKey || String(node.value)
+        return getEnumLabel(ENUM_I18N_PREFIX.quriousCraftingSkill, i18nId, fallback)
+      }
+
       const translateTree = (data: any[]): TreeSelectProps['treeData'] => {
         return data
           .filter(Boolean)
           .map((node) => {
             return {
               ...node,
-              label: getEnumLabel(
-                ENUM_I18N_PREFIX.quriousCraftingSkill,
-                String(node.value),
-                String(node.label || ''),
-              ),
+              label: formatSkillLabel(node, String(node.label || '')),
               children: Array.isArray(node.children) ? translateTree(node.children) : undefined,
             }
           })

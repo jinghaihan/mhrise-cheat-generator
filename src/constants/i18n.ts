@@ -22,7 +22,7 @@ export const ENUM_I18N_PREFIX = {
   buddyPalicoSkill: 'ui.enum.buddy.palicoSkill',
 
   quriousCraftingType: 'ui.enum.quriousCrafting.type',
-  quriousCraftingSkill: 'ui.enum.quriousCrafting.skill',
+  quriousCraftingSkill: 'quriousCrafting.skill',
 
   anomalyQuestType: 'ui.enum.anomalyQuest.type',
   anomalyQuestHunt: 'ui.enum.anomalyQuest.hunt',
@@ -32,7 +32,7 @@ export const ENUM_I18N_PREFIX = {
   anomalyQuestPlayerQty: 'ui.enum.anomalyQuest.playerQty',
   anomalyQuestTimezone: 'ui.enum.anomalyQuest.timezone',
   anomalyQuestSp: 'ui.enum.anomalyQuest.sp',
-  anomalyQuestMonster: 'ui.enum.anomalyQuest.monster',
+  anomalyQuestMonster: 'anomalyQuest.monster',
 
   functionalHunterSpeed: 'ui.enum.functional.hunterSpeed',
   functionalQuestReward: 'ui.enum.functional.questRewardMultiplier',

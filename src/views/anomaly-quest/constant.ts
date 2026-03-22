@@ -3,6 +3,7 @@ import {
   ANOMALY_QUEST_HUNT,
   ANOMALY_QUEST_LOCATION,
   ANOMALY_QUEST_MONSTER,
+  ANOMALY_QUEST_MONSTER_CODE_TO_I18N_KEY,
   ANOMALY_QUEST_MONSTER_MAJOR,
   ANOMALY_QUEST_PLAYERQTY,
   ANOMALY_QUEST_SP,
@@ -33,11 +34,25 @@ function resolveLabelInValueByCode(
   value: string,
   labelByValue: Record<string, string>,
   i18nPrefix: string,
+  i18nId = value,
 ): LabelInValueType {
   return {
-    label: getEnumLabel(i18nPrefix, value, labelByValue[value] || value),
+    label: getEnumLabel(i18nPrefix, i18nId, labelByValue[value] || value),
     value,
   }
+}
+
+function resolveMonsterLabelInValueByCode(
+  value: string,
+  labelByValue: Record<string, string>,
+): LabelInValueType {
+  const i18nId = ANOMALY_QUEST_MONSTER_CODE_TO_I18N_KEY[value] || value
+  return resolveLabelInValueByCode(
+    value,
+    labelByValue,
+    ENUM_I18N_PREFIX.anomalyQuestMonster,
+    i18nId,
+  )
 }
 
 const ANOMALY_QUEST_SP_LABEL_BY_VALUE = createLabelByValueMap(ANOMALY_QUEST_SP)
@@ -282,30 +297,25 @@ export class AnomalyQuest implements AnomalyQuestConfig {
       ANOMALY_QUEST_TIMEZONE_LABEL_BY_VALUE,
       ENUM_I18N_PREFIX.anomalyQuestTimezone,
     )
-    this.monster1 = resolveLabelInValueByCode(
+    this.monster1 = resolveMonsterLabelInValueByCode(
       monster1,
       ANOMALY_QUEST_MONSTER_MAJOR_LABEL_BY_VALUE,
-      ENUM_I18N_PREFIX.anomalyQuestMonster,
     )
-    this.monster2 = resolveLabelInValueByCode(
+    this.monster2 = resolveMonsterLabelInValueByCode(
       monster2,
       ANOMALY_QUEST_MONSTER_LABEL_BY_VALUE,
-      ENUM_I18N_PREFIX.anomalyQuestMonster,
     )
-    this.monster3 = resolveLabelInValueByCode(
+    this.monster3 = resolveMonsterLabelInValueByCode(
       monster3,
       ANOMALY_QUEST_MONSTER_LABEL_BY_VALUE,
-      ENUM_I18N_PREFIX.anomalyQuestMonster,
     )
-    this.monster4 = resolveLabelInValueByCode(
+    this.monster4 = resolveMonsterLabelInValueByCode(
       monster4,
       ANOMALY_QUEST_MONSTER_LABEL_BY_VALUE,
-      ENUM_I18N_PREFIX.anomalyQuestMonster,
     )
-    this.monster5 = resolveLabelInValueByCode(
+    this.monster5 = resolveMonsterLabelInValueByCode(
       monster5,
       ANOMALY_QUEST_MONSTER_LABEL_BY_VALUE,
-      ENUM_I18N_PREFIX.anomalyQuestMonster,
     )
   }
 }
