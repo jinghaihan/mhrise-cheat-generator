@@ -14,22 +14,22 @@ export default defineComponent({
   name: 'WeaponUsageForm',
   setup() {
     const GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE, false, {
+      parseSelectOptions(GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.guildCardWeaponType,
       }),
     )
     const GUILD_CARD_WEAPON_USAGE_QUEST_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(GUILD_CARD_WEAPON_USAGE_QUEST_TYPE, true, {
+      parseSelectOptions(GUILD_CARD_WEAPON_USAGE_QUEST_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.guildCardWeaponUsageQuestType,
       }),
     )
 
-    const images = {} as Record<string, string>
+    const images: Record<string, string> = {}
     Object.values(GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE).forEach((weaponValue) => {
       images[weaponValue] = new URL(`../../assets/images/weapon/${weaponValue}.jpeg`, import.meta.url).href
     })
 
-    const formState = ref({
+    const formState = ref<WeaponUsageFormState>({
       '20': {},
       '28': {},
       '40': {},
@@ -44,7 +44,7 @@ export default defineComponent({
       '2C': {},
       '30': {},
       '54': {},
-    } as WeaponUsageFormState)
+    })
 
     const { genCheat } = useCheat()
     const onSubmit = () => {
@@ -56,13 +56,13 @@ export default defineComponent({
               weapon: {
                 label: GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE_OPTIONS.value.find(
                   item => item.value === weapon,
-                )?.label as string,
+                )?.label || weapon,
                 value: weapon,
               },
               quest: {
                 label: GUILD_CARD_WEAPON_USAGE_QUEST_TYPE_OPTIONS.value.find(
                   item => item.value === quest,
-                )?.label || GUILD_CARD_WEAPON_USAGE_QUEST_TYPE[quest],
+                )?.label || quest,
                 value: quest,
               },
             })

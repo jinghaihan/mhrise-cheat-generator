@@ -16,12 +16,12 @@ export default defineComponent({
   },
   setup(props) {
     const BUDDY_SKILL_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(BUDDY_SKILL, true, {
+      parseSelectOptions(BUDDY_SKILL, {
         i18nPrefix: ENUM_I18N_PREFIX.buddySkill,
       }),
     )
 
-    const formState = ref({
+    const formState = ref<Record<string, any>>({
       skill1: null,
       skill2: null,
       skill3: null,
@@ -30,7 +30,7 @@ export default defineComponent({
       skill6: null,
       skill7: null,
       skill8: null,
-    } as Record<string, any>)
+    })
 
     const onSave = () => {
       props.update(cloneDeep(formState.value))

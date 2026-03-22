@@ -10,11 +10,11 @@ export default defineComponent({
     const { genCheat } = useCheat()
 
     const formRef = ref()
-    const formState = ref({
+    const formState = ref<ItemQuanityFormState>({
       start: 1,
-      end: Object.keys(ITEM_TYPE).length + 1,
+      end: ITEM_TYPE.length + 1,
       count: 9500,
-    } as ItemQuanityFormState)
+    })
 
     const onSubmit = async () => {
       try {

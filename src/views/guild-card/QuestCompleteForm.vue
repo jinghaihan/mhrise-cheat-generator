@@ -11,12 +11,12 @@ export default defineComponent({
   name: 'QuestComplateForm',
   setup() {
     const GUILD_CARD_QUEST_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(GUILD_CARD_QUEST_TYPE, true, {
+      parseSelectOptions(GUILD_CARD_QUEST_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.guildCardQuestType,
       }),
     )
 
-    const formState = ref({} as QuestCompleteFormState)
+    const formState = ref<QuestCompleteFormState>({})
 
     const { genCheat } = useCheat()
     const onSubmit = () => {
@@ -24,7 +24,7 @@ export default defineComponent({
         if (!isEmpty(formState.value[key])) {
           const option = GUILD_CARD_QUEST_TYPE_OPTIONS.value.find(item => item.value === key)
           genCheat('QUEST_COMPLETE_QTY', {
-            name: option?.label || GUILD_CARD_QUEST_TYPE[key],
+            name: option?.label || key,
             type: key,
             count: formState.value[key],
           })

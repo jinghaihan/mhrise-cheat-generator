@@ -11,14 +11,14 @@ export default defineComponent({
   name: 'QuestRewardMultiplerForm',
   setup() {
     const FUNCTIONAL_QUEST_REWARD_MULTIPLE_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(FUNCTIONAL_QUEST_REWARD_MULTIPLE_TYPE, false, {
+      parseSelectOptions(FUNCTIONAL_QUEST_REWARD_MULTIPLE_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.functionalQuestReward,
       }),
     )
 
-    const formState = ref({
+    const formState = ref<QuestRewardMultiplerFormState>({
       multiple: [],
-    } as QuestRewardMultiplerFormState)
+    })
 
     const { genCheat } = useCheat()
     const onSubmit = () => {

@@ -11,26 +11,47 @@ export default defineComponent({
   name: 'BasicForm',
   emits: ['add', 'clear'],
   setup(_, { emit }) {
+    const TALISMAN_SKILL_GRADE_BY_ID = TALISMAN_SKILL.reduce<Record<string, string>>((result, skill) => {
+      if (skill.grade) {
+        result[skill.id] = skill.grade
+      }
+      return result
+    }, {})
+
     const TALISMAN_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(TALISMAN_TYPE, true, {
+      parseSelectOptions(TALISMAN_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.talismanType,
       }),
     )
     const TALISMAN_SKILL_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(TALISMAN_SKILL, true, {
+      parseSelectOptions(TALISMAN_SKILL.map(skill => ({
+        key: skill.id,
+        value: skill.id,
+      })), {
         i18nPrefix: ENUM_I18N_PREFIX.talismanSkill,
+      }).map((option) => {
+        const grade = TALISMAN_SKILL_GRADE_BY_ID[option.value]
+        return {
+          ...option,
+          label: grade ? `${grade}. ${option.label}` : option.label,
+        }
       }),
     )
     const TALISMAN_SLOT_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(TALISMAN_SLOT, false, {
+      parseSelectOptions(TALISMAN_SLOT, {
         i18nPrefix: ENUM_I18N_PREFIX.talismanSlot,
-        i18nIdBy: 'sourceKey',
       }),
     )
 
-    const formState = ref({
+    const formState = ref<BasicFormState>({
       box: 201,
-    } as BasicFormState)
+      type: null,
+      skill1: null,
+      level1: 0,
+      skill2: null,
+      level2: 0,
+      slot: null,
+    })
 
     const reset = () => {
       formState.value.type = TALISMAN_TYPE_OPTIONS.value.find(item => item.value === '11')
@@ -38,8 +59,9 @@ export default defineComponent({
       formState.value.level1 = 0
       formState.value.skill2 = null
       formState.value.level2 = 0
+      const defaultSlot = TALISMAN_SLOT.find(item => item.key === '4-1-1')
       formState.value.slot = TALISMAN_SLOT_OPTIONS.value.find(
-        item => item.value === TALISMAN_SLOT['4-1-1'],
+        item => item.value === defaultSlot?.value,
       )
     }
     reset()

@@ -1,5 +1,7 @@
+import type { Version } from '@/constants/database'
 import type { AppLocale } from '@/constants/i18n'
 import { defineStore } from 'pinia'
+import { DEFAULT_VERSION, isVersion } from '@/constants/database'
 import {
   USER_CART_STORE_KEY,
   USER_COMPACT_MODE_STORE_KEY,
@@ -13,10 +15,11 @@ export const useUserStore = defineStore('user', {
   state: (): {
     theme: 'light' | 'dark'
     compact: boolean
-    version: string
+    version: Version
     carts: CheatConfig[]
     locale: AppLocale
   } => {
+    const localVersion = localStorage.getItem(USER_VERSION_STORE_KEY)
     return {
       theme: localStorage.getItem(USER_THEME_STORE_KEY)
         ? (localStorage.getItem(USER_THEME_STORE_KEY) as 'light' | 'dark')
@@ -24,7 +27,7 @@ export const useUserStore = defineStore('user', {
       compact: localStorage.getItem(USER_COMPACT_MODE_STORE_KEY)
         ? localStorage.getItem(USER_COMPACT_MODE_STORE_KEY) === 'true'
         : false,
-      version: localStorage.getItem(USER_VERSION_STORE_KEY) || '',
+      version: isVersion(localVersion) ? localVersion : DEFAULT_VERSION,
       carts: localStorage.getItem(USER_CART_STORE_KEY)
         ? JSON.parse(localStorage.getItem(USER_CART_STORE_KEY) as string)
         : [],

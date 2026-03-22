@@ -3,8 +3,9 @@ import type { OverallItemFormState } from './constant'
 import { defineComponent, ref } from 'vue'
 import { useCheat } from '@/composables/useCheat'
 import { ITEM_TYPE } from '@/constants/database'
+import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { useUserStore } from '@/modules/store'
-import { downloadCheat } from '@/utils'
+import { downloadCheat, getEnumLabel } from '@/utils'
 
 export default defineComponent({
   name: 'OverallItemForm',
@@ -13,20 +14,20 @@ export default defineComponent({
     const { genCheat } = useCheat()
 
     const formRef = ref()
-    const formState = ref({
+    const formState = ref<OverallItemFormState>({
       count: 9500,
-    } as OverallItemFormState)
+    })
 
     const onSubmit = async () => {
       try {
         const state = await formRef.value.validate()
-        const itemIds = Object.keys(ITEM_TYPE)
+        const itemIds = ITEM_TYPE
 
         const groupSizeCount = 15
         const fileSizeCount = 25
 
-        const groupMap = {} as Record<string, string>
-        const fileMap = {} as Record<string, string>
+        const groupMap: Record<string, string> = {}
+        const fileMap: Record<string, string> = {}
 
         itemIds.forEach((id, index) => {
           const groupIndex = Math.floor(index / groupSizeCount) + 1
@@ -40,7 +41,7 @@ export default defineComponent({
               box: index + 1,
               item: {
                 value: id,
-                label: ITEM_TYPE[id],
+                label: getEnumLabel(ENUM_I18N_PREFIX.itemType, id),
               },
               count: state.count,
             },
@@ -64,7 +65,7 @@ export default defineComponent({
           fileMap[file] += groupMap[group]
         })
 
-        const codes = [] as string[]
+        const codes: string[] = []
         Object.keys(fileMap).forEach((file) => {
           codes.push(fileMap[file])
         })

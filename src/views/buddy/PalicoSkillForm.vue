@@ -16,18 +16,18 @@ export default defineComponent({
   },
   setup(props) {
     const BUDDY_SKILL_PALICO_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(BUDDY_SKILL_PALICO, true, {
+      parseSelectOptions(BUDDY_SKILL_PALICO, {
         i18nPrefix: ENUM_I18N_PREFIX.buddyPalicoSkill,
       }),
     )
 
-    const formState = ref({
+    const formState = ref<Record<string, any>>({
       skill1: null,
       skill2: null,
       skill3: null,
       skill4: null,
       skill5: null,
-    } as Record<string, any>)
+    })
 
     const onSave = () => {
       props.update(cloneDeep(formState.value))

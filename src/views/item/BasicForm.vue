@@ -12,14 +12,16 @@ export default defineComponent({
   emits: ['add', 'clear'],
   setup(_, { emit }) {
     const ITEM_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ITEM_TYPE, true, {
+      parseSelectOptions(ITEM_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.itemType,
       }),
     )
 
-    const formState = ref({
+    const formState = ref<BasicFormState>({
       box: 1,
-    } as BasicFormState)
+      item: null,
+      count: 9500,
+    })
 
     const reset = () => {
       formState.value.item = null

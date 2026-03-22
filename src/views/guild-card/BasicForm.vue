@@ -12,11 +12,17 @@ import { parseSelectOptions } from '@/utils'
 export default defineComponent({
   name: 'BasicForm',
   setup() {
-    const GUILD_CARD_HUNTER_RANK_EXP_OPTIONS = parseSelectOptions(GUILD_CARD_HUNTER_RANK_EXP)
-    const GUILD_CARD_MASTER_RANK_EXP_OPTIONS = parseSelectOptions(GUILD_CARD_MASTER_RANK_EXP)
-    const GUILD_CARD_ANOMALY_RANK_EXP_OPTIONS = parseSelectOptions(GUILD_CARD_ANOMALY_RANK_EXP)
+    const toRankOptions = (data: Record<string, string>) => {
+      return parseSelectOptions(
+        Object.entries(data).map(([key, value]) => ({ key, value, label: key })),
+      )
+    }
 
-    const formState = ref({
+    const GUILD_CARD_HUNTER_RANK_EXP_OPTIONS = toRankOptions(GUILD_CARD_HUNTER_RANK_EXP)
+    const GUILD_CARD_MASTER_RANK_EXP_OPTIONS = toRankOptions(GUILD_CARD_MASTER_RANK_EXP)
+    const GUILD_CARD_ANOMALY_RANK_EXP_OPTIONS = toRankOptions(GUILD_CARD_ANOMALY_RANK_EXP)
+
+    const formState = ref<BasicFormState>({
       hunterRank: null,
       masterRank: null,
       anomalyRank: null,
@@ -25,7 +31,7 @@ export default defineComponent({
       kamura: null,
       playDuration: null,
       like: null,
-    } as BasicFormState)
+    })
 
     const { genCheat } = useCheat()
     const onSubmit = () => {

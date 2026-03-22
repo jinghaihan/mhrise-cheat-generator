@@ -8,6 +8,7 @@ import {
   QURIOUS_CRAFTING_ATTRIBUTE_VALUE_TO_KEY,
   QURIOUS_CRAFTING_SKILL,
   QURIOUS_CRAFTING_TYPE,
+  TALISMAN_SKILL,
 } from '@/constants/database'
 import { ENUM_I18N_PREFIX } from '@/constants/i18n'
 import { getEnumLabel, isEmpty, parseSelectOptions } from '@/utils'
@@ -16,30 +17,50 @@ export default defineComponent({
   name: 'BasicForm',
   emits: ['add', 'clear'],
   setup(_, { emit }) {
+    const TALISMAN_SKILL_GRADE_BY_ID = TALISMAN_SKILL.reduce<Record<string, string>>((result, skill) => {
+      if (skill.grade) {
+        result[skill.id] = skill.grade
+      }
+      return result
+    }, {})
+
     const QURIOUS_CRAFTING_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(QURIOUS_CRAFTING_TYPE, false, {
+      parseSelectOptions(QURIOUS_CRAFTING_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.quriousCraftingType,
       }),
     )
     const QURIOUS_CRAFTING_SKILL_OPTIONS = useReactiveI18n(() => {
       const formatSkillLabel = (node: any, fallback: string) => {
         if (node.sharedSkillKey) {
-          const skillName = getEnumLabel('skill', String(node.sharedSkillKey), fallback)
+          const skillName = getEnumLabel(
+            ENUM_I18N_PREFIX.talismanSkill,
+            String(node.sharedSkillKey),
+            fallback,
+          )
+          const grade = TALISMAN_SKILL_GRADE_BY_ID[String(node.sharedSkillKey)]
+          const displaySkillName = grade ? `${grade}. ${skillName}` : skillName
           if (node.skillDelta === 1) {
-            return `【C${node.skillCost}】${skillName} +1`
+            return `【C${node.skillCost}】${displaySkillName} +1`
           }
           if (node.skillDelta === -1) {
-            return `${skillName} -1`
+            return `${displaySkillName} -1`
           }
-          return skillName
+          return displaySkillName
         }
 
         const attributeKey = QURIOUS_CRAFTING_ATTRIBUTE_VALUE_TO_KEY[String(node.value)]
-        const i18nId = attributeKey || String(node.value)
+        if (attributeKey) {
+          return getEnumLabel(ENUM_I18N_PREFIX.quriousCrafting, attributeKey, fallback)
+        }
+
+        const i18nId = String(node.value)
+        if (i18nId === 'attribute') {
+          return getEnumLabel(ENUM_I18N_PREFIX.quriousCrafting, i18nId, fallback)
+        }
         return getEnumLabel(ENUM_I18N_PREFIX.quriousCraftingSkill, i18nId, fallback)
       }
 
-      const translateTree = (data: any[]): TreeSelectProps['treeData'] => {
+      const translateTree = (data: readonly any[]): TreeSelectProps['treeData'] => {
         return data
           .filter(Boolean)
           .map((node) => {
@@ -51,12 +72,20 @@ export default defineComponent({
           })
       }
 
-      return translateTree(QURIOUS_CRAFTING_SKILL as any[])
+      return translateTree(QURIOUS_CRAFTING_SKILL)
     })
 
-    const formState = ref({
+    const formState = ref<BasicFormState>({
       box: 201,
-    } as BasicFormState)
+      type: null,
+      skill1: null,
+      skill2: null,
+      skill3: null,
+      skill4: null,
+      skill5: null,
+      skill6: null,
+      skill7: null,
+    })
 
     const reset = () => {
       for (let i = 0; i < 7; i++) {

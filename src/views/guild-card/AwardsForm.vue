@@ -13,28 +13,22 @@ export default defineComponent({
   name: 'AwardsForm',
   components: { SpriteIcon },
   setup() {
-    const data = ref({} as Record<string, boolean>)
+    const data = ref<Record<string, boolean>>({})
     const checkAll = ref(false)
 
-    const AWARD_ENTRIES = Object.keys(GUILD_CARD_AWARDS).map((name) => {
-      const award = GUILD_CARD_AWARDS[name]
-      const awardKey = `${award.type}-${award.id}`
-      data.value[awardKey] = false
-      return {
-        key: awardKey,
-        sourceLabel: name,
-        value: award,
-      }
+    const AWARD_ENTRIES = GUILD_CARD_AWARDS.map((award) => {
+      data.value[award.key] = false
+      return award
     })
     const GUILD_CARD_AWARDS_OPTIONS = useReactiveI18n(() =>
       AWARD_ENTRIES.map((award) => {
         return {
           ...award,
-          label: getEnumLabel(ENUM_I18N_PREFIX.guildCardAwardName, award.key, award.sourceLabel),
+          label: getEnumLabel(ENUM_I18N_PREFIX.guildCardAwardName, award.key, award.key),
           description: getEnumLabel(
             ENUM_I18N_PREFIX.guildCardAwardDescription,
             award.key,
-            award.value.description,
+            award.key,
           ),
         }
       }),
@@ -43,14 +37,14 @@ export default defineComponent({
     const { genCheat } = useCheat()
     const onSubmit = () => {
       if (Object.values(data.value).includes(true)) {
-        const state = {} as Record<string, number>
+        const state: Record<string, number> = {}
         AWARD_ENTRIES.forEach((item) => {
-          const type = item.value.type
+          const type = item.type
           if (!state[type]) {
             state[type] = 0
           }
           if (data.value[item.key]) {
-            state[type] += Number.parseInt(item.value.id, 16)
+            state[type] += Number.parseInt(item.id, 16)
           }
         })
         genCheat('AWARDS', state)

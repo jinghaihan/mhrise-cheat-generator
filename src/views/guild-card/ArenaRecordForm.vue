@@ -12,22 +12,22 @@ export default defineComponent({
   name: 'ArenaRecordForm',
   setup() {
     const GUILD_CARD_ARENA_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(GUILD_CARD_ARENA_TYPE, false, {
+      parseSelectOptions(GUILD_CARD_ARENA_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.guildCardArenaType,
       }),
     )
     const GUILD_CARD_ARENA_QUEST_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(GUILD_CARD_ARENA_QUEST, false, {
+      parseSelectOptions(GUILD_CARD_ARENA_QUEST, {
         i18nPrefix: ENUM_I18N_PREFIX.guildCardArenaQuest,
       }),
     )
 
-    const formState = ref({
+    const formState = ref<ArenaRecordFormState>({
       type: null,
       quest: null,
       slot: null,
-    } as ArenaRecordFormState)
-    const data = ref([] as ArenaRecordFormState[])
+    })
+    const data = ref<ArenaRecordFormState[]>([])
 
     const reset = () => {
       formState.value.type = GUILD_CARD_ARENA_TYPE_OPTIONS.value.find(item => item.value === '88')

@@ -1,40 +1,57 @@
 import { t } from '@/modules/i18n'
 
-type ParseOptionI18nIdBy = 'sourceKey' | 'value'
-
 export interface ParseSelectOptionsConfig {
   i18nPrefix?: string
-  i18nIdBy?: ParseOptionI18nIdBy
+}
+
+type SelectOptionEntry = string | {
+  key: string
+  value: string
+  label?: string
+}
+
+function normalizeOptionEntry(entry: SelectOptionEntry) {
+  if (typeof entry === 'string') {
+    return {
+      key: entry,
+      value: entry,
+      label: entry,
+    }
+  }
+
+  return {
+    key: entry.key,
+    value: entry.value,
+    label: entry.label || entry.key,
+  }
 }
 
 function resolveLabel(
   sourceLabel: string,
   sourceKey: string,
-  value: string,
   config: ParseSelectOptionsConfig,
 ) {
   if (!config.i18nPrefix) {
     return sourceLabel
   }
 
-  const idBy: ParseOptionI18nIdBy = config.i18nIdBy || 'value'
-  const i18nId = idBy === 'sourceKey' ? sourceKey : value
-  const i18nKey = `${config.i18nPrefix}.${i18nId}`
+  const i18nKey = `${config.i18nPrefix}.${sourceKey}`
   const translated = t(i18nKey)
   return translated === i18nKey ? sourceLabel : translated
 }
 
 export function parseSelectOptions(
-  data: Record<string, string>,
-  revert = false,
+  data: readonly SelectOptionEntry[],
   config: ParseSelectOptionsConfig = {},
 ) {
-  return Object.keys(data).map((sourceKey) => {
-    const sourceLabel = revert ? data[sourceKey] : sourceKey
-    const value = revert ? sourceKey : data[sourceKey]
+  return data.map((entry) => {
+    const normalized = normalizeOptionEntry(entry)
+    const sourceKey = normalized.key
+    const sourceLabel = normalized.label
+    const value = normalized.value
 
     return {
-      label: resolveLabel(sourceLabel, sourceKey, value, config),
+      label: resolveLabel(sourceLabel, sourceKey, config),
       value,
       sourceKey,
       sourceLabel,
@@ -42,7 +59,7 @@ export function parseSelectOptions(
   })
 }
 
-export function getEnumLabel(i18nPrefix: string, id: string, fallback: string) {
+export function getEnumLabel(i18nPrefix: string, id: string, fallback = id) {
   const i18nKey = `${i18nPrefix}.${id}`
   const translated = t(i18nKey)
   return translated === i18nKey ? fallback : translated

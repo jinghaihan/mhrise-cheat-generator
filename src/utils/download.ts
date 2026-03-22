@@ -1,11 +1,12 @@
+import type { Version } from '@/constants/database'
 import { Modal } from 'ant-design-vue'
-import saveAs from 'file-saver'
 
+import saveAs from 'file-saver'
 import JSZip from 'jszip'
 import { BUILD_ID, TITLE_ID } from '@/constants/database'
 import { t } from '@/modules/i18n'
 
-export function downloadCheat(version: string, data: string | string[]) {
+export function downloadCheat(version: Version, data: string | string[]) {
   Modal.confirm({
     title: t('ui.download.backupTitle'),
     content: t('ui.download.backupContent'),
@@ -26,7 +27,7 @@ export function downloadCheat(version: string, data: string | string[]) {
       }
 
       zip.generateAsync({ type: 'blob' }).then((content) => {
-        saveAs(content, `${TITLE_ID}.zip`)
+        saveAs(content, `${TITLE_ID[version]}.zip`)
       })
     },
   })

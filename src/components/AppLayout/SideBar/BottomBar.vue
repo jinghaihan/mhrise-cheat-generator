@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { BUILD_ID } from '@/constants/database'
+import { VERSIONS } from '@/constants/database'
 import { LOCALE_LABEL, SUPPORTED_LOCALES } from '@/constants/i18n'
 import { useUserStore } from '@/modules/store'
 import { downloadCheat } from '@/utils'
@@ -10,7 +10,7 @@ export default defineComponent({
   name: 'SiderBottomBar',
   setup() {
     const { t } = useI18n()
-    const BUILD_ID_OPTIONS = Object.keys(BUILD_ID).map((ver) => {
+    const BUILD_ID_OPTIONS = VERSIONS.map((ver) => {
       return {
         label: ver,
         value: ver,
@@ -19,7 +19,6 @@ export default defineComponent({
     const drawerVisible = ref(false)
     const userStore = useUserStore()
     const { theme, version, carts, locale } = toRefs(userStore)
-    version.value = version.value || BUILD_ID_OPTIONS[0].value
     const LOCALE_OPTIONS = computed(() => {
       return SUPPORTED_LOCALES.map((item) => {
         return {

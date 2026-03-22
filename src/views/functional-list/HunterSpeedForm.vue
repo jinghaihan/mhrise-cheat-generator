@@ -11,14 +11,14 @@ export default defineComponent({
   name: 'HunterSpeedForm',
   setup() {
     const FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE, false, {
+      parseSelectOptions(FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.functionalHunterSpeed,
       }),
     )
 
-    const formState = ref({
+    const formState = ref<HunterSpeedFormState>({
       multiple: [],
-    } as HunterSpeedFormState)
+    })
 
     const { genCheat } = useCheat()
     const onSubmit = () => {

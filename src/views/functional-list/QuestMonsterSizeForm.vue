@@ -11,15 +11,15 @@ export default defineComponent({
   name: 'QuestMonsterSizeForm',
   setup() {
     const FUNCTIONAL_QUEST_MONSTER_SIZE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(FUNCTIONAL_QUEST_MONSTER_SIZE, false, {
+      parseSelectOptions(FUNCTIONAL_QUEST_MONSTER_SIZE, {
         i18nPrefix: ENUM_I18N_PREFIX.functionalQuestMonsterSize,
       }),
     )
 
-    const formState = ref({
+    const formState = ref<QuestMonsterSizeFormState>({
       slot: null,
       multiple: [],
-    } as QuestMonsterSizeFormState)
+    })
 
     const { genCheat } = useCheat()
     const onSubmit = () => {

@@ -5,8 +5,8 @@ export type ColumnData = ItemConfig
 export interface BasicFormState {
   [key: string]: any
   box: number
-  item: LabelInValueType
-  count: number
+  item: LabelInValueType | null
+  count: number | null
 }
 
 export type ItemQuanityFormState = ItemQtyConfig

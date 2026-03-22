@@ -24,75 +24,87 @@ export default defineComponent({
   emits: ['add', 'clear'],
   setup(_, { emit }) {
     const ANOMALY_QUEST_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_TYPE, false, {
+      parseSelectOptions(ANOMALY_QUEST_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestType,
       }),
     )
     const ANOMALY_QUEST_HUNT_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_HUNT, false, {
+      parseSelectOptions(ANOMALY_QUEST_HUNT, {
         i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestHunt,
       }),
     )
     const ANOMALY_QUEST_MONSTER_MAJOR_OPTIONS = useReactiveI18n(() =>
-      Object.keys(ANOMALY_QUEST_MONSTER_MAJOR).map((name) => {
-        const code = ANOMALY_QUEST_MONSTER_MAJOR[name].code
+      ANOMALY_QUEST_MONSTER_MAJOR.map((monster) => {
+        const code = monster.code
         const i18nId = ANOMALY_QUEST_MONSTER_CODE_TO_I18N_KEY[code] || code
         return {
-          label: getEnumLabel(ENUM_I18N_PREFIX.anomalyQuestMonster, i18nId, name),
+          label: getEnumLabel(ENUM_I18N_PREFIX.anomalyQuestMonster, i18nId, code),
           value: code,
-          sourceKey: name,
-          sourceLabel: name,
+          sourceKey: i18nId,
+          sourceLabel: code,
         }
       }),
     )
     const ANOMALY_QUEST_MONSTER_OPTIONS = useReactiveI18n(() =>
-      Object.keys(ANOMALY_QUEST_MONSTER).map((name) => {
-        const code = ANOMALY_QUEST_MONSTER[name]
+      ANOMALY_QUEST_MONSTER.map((code) => {
         const i18nId = ANOMALY_QUEST_MONSTER_CODE_TO_I18N_KEY[code] || code
         return {
-          label: getEnumLabel(ENUM_I18N_PREFIX.anomalyQuestMonster, i18nId, name),
+          label: getEnumLabel(ENUM_I18N_PREFIX.anomalyQuestMonster, i18nId, code),
           value: code,
-          sourceKey: name,
-          sourceLabel: name,
+          sourceKey: i18nId,
+          sourceLabel: code,
         }
       }),
     )
     const ANOMALY_QUEST_LOCATION_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_LOCATION, false, {
+      parseSelectOptions(ANOMALY_QUEST_LOCATION, {
         i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestLocation,
       }),
     )
     const ANOMALY_QUEST_TIMELIMIT_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_TIMELIMIT, false, {
+      parseSelectOptions(ANOMALY_QUEST_TIMELIMIT, {
         i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestTimelimit,
       }),
     )
     const ANOMALY_QUEST_FAIL_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_FAIL, false, {
+      parseSelectOptions(ANOMALY_QUEST_FAIL, {
         i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestFail,
       }),
     )
     const ANOMALY_QUEST_PLAYERQTY_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_PLAYERQTY, false, {
+      parseSelectOptions(ANOMALY_QUEST_PLAYERQTY, {
         i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestPlayerQty,
       }),
     )
     const ANOMALY_QUEST_TIMEZONE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_TIMEZONE, false, {
+      parseSelectOptions(ANOMALY_QUEST_TIMEZONE, {
         i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestTimezone,
       }),
     )
     const ANOMALY_QUEST_SP_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(ANOMALY_QUEST_SP, false, {
+      parseSelectOptions(ANOMALY_QUEST_SP, {
         i18nPrefix: ENUM_I18N_PREFIX.anomalyQuestSp,
       }),
     )
 
-    const formState = ref({
+    const formState = ref<BasicFormState>({
       index: 9999,
       questIndex: 200,
       level: 300,
-    } as BasicFormState)
+      type: null,
+      hunt: null,
+      monster1: null,
+      monster2: null,
+      monster3: null,
+      monster4: null,
+      monster5: null,
+      location: null,
+      timelimit: null,
+      fail: null,
+      playerQty: null,
+      timezone: null,
+      sp: null,
+    })
 
     const reset = () => {
       formState.value.type = ANOMALY_QUEST_TYPE_OPTIONS.value.find(item => item.value === '0001')

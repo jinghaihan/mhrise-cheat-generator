@@ -2,8 +2,13 @@ import { t } from '@/modules/i18n'
 
 export type ColumnData = BuddyConfig
 
-export interface BasicFormState extends BuddyConfig {
+export interface BasicFormState {
   [key: string]: any
+  box: number
+  type: LabelInValueType | null
+  level: LabelInValueType | null
+  skills?: Record<string, LabelInValueType | null>
+  palicoSkills?: Record<string, LabelInValueType | null>
 }
 
 export function getColumns() {

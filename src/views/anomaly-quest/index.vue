@@ -5,7 +5,7 @@ import { HorizontalLayout } from '@/components/TableLayout'
 import { useCheat } from '@/composables/useCheat'
 import { useReactiveI18n } from '@/composables/useReactiveI18n'
 
-import { ANOMALY_QUEST_LOCATION, ANOMALY_QUEST_MONSTER_MAJOR } from '@/constants/database'
+import { ANOMALY_QUEST_MONSTER_MAJOR } from '@/constants/database'
 import { getTableScrollX } from '@/utils'
 
 import BasicForm from './BasicForm.vue'
@@ -16,7 +16,7 @@ export default defineComponent({
   components: { HorizontalLayout, BasicForm },
   setup() {
     const { genCheat } = useCheat()
-    const data = ref([] as ColumnData[])
+    const data = ref<ColumnData[]>([])
     const columns = useReactiveI18n(getColumns)
 
     const onSubmit = () => {
@@ -28,17 +28,17 @@ export default defineComponent({
     }
 
     const getAnomalyQuestList = (addCustomAnomalyQuest: boolean) => {
-      const rows = [] as ColumnData[]
+      const rows: ColumnData[] = []
       let index = 0
-      Object.keys(ANOMALY_QUEST_MONSTER_MAJOR).forEach((monster) => {
-        ANOMALY_QUEST_MONSTER_MAJOR[monster].location.forEach((location) => {
+      ANOMALY_QUEST_MONSTER_MAJOR.forEach((monster) => {
+        monster.locations.forEach((location) => {
           rows.push(
             new AnomalyQuest({
               index: 9999 - index,
               questIndex: 200 - index,
-              location: ANOMALY_QUEST_LOCATION[location],
-              monster1: ANOMALY_QUEST_MONSTER_MAJOR[monster].code,
-            }) as ColumnData,
+              location,
+              monster1: monster.code,
+            }),
           )
           index++
         })

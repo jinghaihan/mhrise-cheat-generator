@@ -1,3 +1,4 @@
+import type { Version } from '@/constants/database'
 import {
   ANOMALY_QUEST_CHEAT_POINTER,
   BUDDY_CHEAT_POINTER,
@@ -16,7 +17,7 @@ import { useUserStore } from '@/modules/store'
 import { genBox, genCheatStr, genCount, genDoubleTime } from '@/utils'
 
 export class CheatGenerator {
-  static ITEM(version: string, data: ItemConfig): CheatConfig {
+  static ITEM(version: Version, data: ItemConfig): CheatConfig {
     const pointer = ITEM_CHEAT_POINTER[version]
 
     return {
@@ -33,7 +34,7 @@ export class CheatGenerator {
     }
   }
 
-  static ITEM_QTY(version: string, data: ItemQtyConfig): CheatConfig {
+  static ITEM_QTY(version: Version, data: ItemQtyConfig): CheatConfig {
     const pointer = ITEM_CHEAT_POINTER[version]
 
     return {
@@ -58,7 +59,7 @@ export class CheatGenerator {
     }
   }
 
-  static TALISMAN(version: string, data: TalismanConfig): CheatConfig {
+  static TALISMAN(version: Version, data: TalismanConfig): CheatConfig {
     const pointer = TALISMAN_CHEAT_POINTER[version]
 
     return {
@@ -104,7 +105,7 @@ export class CheatGenerator {
     }
   }
 
-  static QURIOUS_CRAFTING(version: string, data: QuriousCraftingConfig): CheatConfig {
+  static QURIOUS_CRAFTING(version: Version, data: QuriousCraftingConfig): CheatConfig {
     const pointer = QURIOUS_CRAFTING_CHEAT_POINTER[version]
 
     let codeStrs = [
@@ -141,7 +142,7 @@ export class CheatGenerator {
     }
   }
 
-  static ANOMALY_QUEST(version: string, data: AnomalyQuestConfig): CheatConfig {
+  static ANOMALY_QUEST(version: Version, data: AnomalyQuestConfig): CheatConfig {
     const pointer = ANOMALY_QUEST_CHEAT_POINTER[version]
 
     let title = ''
@@ -198,7 +199,7 @@ export class CheatGenerator {
     }
   }
 
-  static BUDDY_LEVEL(version: string, data: BuddyConfig): CheatConfig {
+  static BUDDY_LEVEL(version: Version, data: BuddyConfig): CheatConfig {
     const pointer = BUDDY_CHEAT_POINTER[version]
 
     return {
@@ -231,7 +232,7 @@ export class CheatGenerator {
     }
   }
 
-  static BUDDY_SKILL(version: string, data: BuddyConfig): CheatConfig {
+  static BUDDY_SKILL(version: Version, data: BuddyConfig): CheatConfig {
     const pointer = BUDDY_CHEAT_POINTER[version]
 
     return {
@@ -280,7 +281,7 @@ export class CheatGenerator {
     }
   }
 
-  static PALICO_SKILL(version: string, data: BuddyConfig): CheatConfig {
+  static PALICO_SKILL(version: Version, data: BuddyConfig): CheatConfig {
     const pointer = BUDDY_CHEAT_POINTER[version]
 
     return {
@@ -307,7 +308,7 @@ export class CheatGenerator {
     }
   }
 
-  static HUNTER_RANK(version: string, data: GuildCardBasicConfig): CheatConfig {
+  static HUNTER_RANK(version: Version, data: GuildCardBasicConfig): CheatConfig {
     const pointer = GUILD_CARD_RANK_CHEAT_POINTER[version]
 
     return {
@@ -321,7 +322,7 @@ export class CheatGenerator {
     }
   }
 
-  static MASTER_RANK(version: string, data: GuildCardBasicConfig): CheatConfig {
+  static MASTER_RANK(version: Version, data: GuildCardBasicConfig): CheatConfig {
     const pointer = GUILD_CARD_RANK_CHEAT_POINTER[version]
 
     return {
@@ -335,7 +336,7 @@ export class CheatGenerator {
     }
   }
 
-  static ANOMALY_RANK(version: string, data: GuildCardBasicConfig): CheatConfig {
+  static ANOMALY_RANK(version: Version, data: GuildCardBasicConfig): CheatConfig {
     const pointer = GUILD_CARD_RANK_CHEAT_POINTER[version]
 
     return {
@@ -349,7 +350,7 @@ export class CheatGenerator {
     }
   }
 
-  static ZENNY(version: string, data: GuildCardBasicConfig): CheatConfig {
+  static ZENNY(version: Version, data: GuildCardBasicConfig): CheatConfig {
     const pointer = GUILD_CARD_CHEAT_ZENNY_POINTER[version]
 
     return {
@@ -369,7 +370,7 @@ export class CheatGenerator {
     }
   }
 
-  static KAMURA_POINT(version: string, data: GuildCardBasicConfig): CheatConfig {
+  static KAMURA_POINT(version: Version, data: GuildCardBasicConfig): CheatConfig {
     const pointer = GUILD_CARD_CHEAT_ZENNY_POINTER[version]
 
     return {
@@ -383,7 +384,7 @@ export class CheatGenerator {
     }
   }
 
-  static PLAY_DURATION(version: string, data: GuildCardBasicConfig): CheatConfig {
+  static PLAY_DURATION(version: Version, data: GuildCardBasicConfig): CheatConfig {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
@@ -398,7 +399,7 @@ export class CheatGenerator {
   }
 
   static QUEST_COMPLETE_QTY(
-    version: string,
+    version: Version,
     data: {
       name: string
       type: string
@@ -422,7 +423,7 @@ export class CheatGenerator {
   }
 
   static OVERALL_HUNT_RECORD(
-    version: string,
+    version: Version,
     data: { hunt: number, capture: number },
   ): CheatConfig {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
@@ -442,7 +443,7 @@ export class CheatGenerator {
   }
 
   static WEAPON_USAGE(
-    version: string,
+    version: Version,
     data: {
       weapon: LabelInValue
       quest: LabelInValue
@@ -468,7 +469,7 @@ export class CheatGenerator {
   }
 
   static HUNT_RECORD(
-    version: string,
+    version: Version,
     data: {
       count: number
       monster: LabelInValue
@@ -490,7 +491,7 @@ export class CheatGenerator {
   }
 
   static MONSTER_CROWN_SIZE(
-    version: string,
+    version: Version,
     data: {
       monster: LabelInValue
       type: LabelInValue
@@ -511,7 +512,7 @@ export class CheatGenerator {
     }
   }
 
-  static ARENA_RECORD_REMOVE(version: string, data: ArenaRecordRemoveConfig): CheatConfig {
+  static ARENA_RECORD_REMOVE(version: Version, data: ArenaRecordRemoveConfig): CheatConfig {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
@@ -539,7 +540,7 @@ export class CheatGenerator {
   }
 
   static AWARDS(
-    version: string,
+    version: Version,
     data: {
       aa: number
       bb: number
@@ -581,7 +582,7 @@ export class CheatGenerator {
     }
   }
 
-  static PLAYER_LIKE_QTY(version: string, data: GuildCardBasicConfig): CheatConfig {
+  static PLAYER_LIKE_QTY(version: Version, data: GuildCardBasicConfig): CheatConfig {
     const pointer = GUILD_CARD_CHEAT_POINTER[version]
 
     return {
@@ -595,7 +596,7 @@ export class CheatGenerator {
     }
   }
 
-  static QUEST_REWARD_MULTIPLER(version: string, data: QuestRewardMultiplerConfig): CheatConfig {
+  static QUEST_REWARD_MULTIPLER(version: Version, data: QuestRewardMultiplerConfig): CheatConfig {
     const pointer = FUNCTIONAL_QUEST_REWARD_MULTIPLE_TYPE_CHEAT_POINTER[version]
 
     return {
@@ -604,7 +605,7 @@ export class CheatGenerator {
     }
   }
 
-  static QUEST_MONSTER_SIZE(version: string, data: QuestMonsterSizeConfig): CheatConfig {
+  static QUEST_MONSTER_SIZE(version: Version, data: QuestMonsterSizeConfig): CheatConfig {
     const pointer = FUNCTIONAL_QUEST_MONSTER_SIZE_CHEAT_POINTER[version]
 
     return {
@@ -624,7 +625,7 @@ export class CheatGenerator {
     }
   }
 
-  static HUNTER_SPEED(version: string, data: HunterSpeedConfig): CheatConfig {
+  static HUNTER_SPEED(version: Version, data: HunterSpeedConfig): CheatConfig {
     const pointer = FUNCTIONAL_HUNTER_SPEED_MULTIPLE_TYPE_CHEAT_POINTER[version]
 
     return {

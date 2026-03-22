@@ -12,7 +12,7 @@ export default defineComponent({
   emits: ['add', 'clear'],
   setup(_, { emit }) {
     const BUDDY_TYPE_OPTIONS = useReactiveI18n(() =>
-      parseSelectOptions(BUDDY_TYPE, false, {
+      parseSelectOptions(BUDDY_TYPE, {
         i18nPrefix: ENUM_I18N_PREFIX.buddyType,
       }),
     )
@@ -20,11 +20,11 @@ export default defineComponent({
       parseSelectOptions(BUDDY_LEVEL),
     )
 
-    const formState = ref({
+    const formState = ref<BasicFormState>({
       box: 1,
       type: BUDDY_TYPE_OPTIONS.value.find(item => item.value === 'PALICO'),
-      level: BUDDY_LEVEL_OPTIONS.value.find(item => item.label === '49'),
-    } as BasicFormState)
+      level: BUDDY_LEVEL_OPTIONS.value.find(item => item.value === '059C30'),
+    })
 
     const onAdd = () => {
       emit('add', cloneDeep(formState.value))

@@ -2,8 +2,17 @@ import { t } from '@/modules/i18n'
 
 export type ColumnData = QuriousCraftingConfig
 
-export interface BasicFormState extends QuriousCraftingConfig {
+export interface BasicFormState {
   [key: string]: any
+  box: number
+  type: LabelInValueType | null
+  skill1: LabelInValueType | null
+  skill2: LabelInValueType | null
+  skill3: LabelInValueType | null
+  skill4: LabelInValueType | null
+  skill5: LabelInValueType | null
+  skill6: LabelInValueType | null
+  skill7: LabelInValueType | null
 }
 
 export function getColumns() {

@@ -1,18 +1,20 @@
-export const GUILD_CARD_QUEST_TYPE = {
-  '00A0': '村庄任务',
-  '00A4': '集会所下位任务',
-  '00A8': '集会所上位任务',
-  '00AC': '百龙夜行',
-  '00B0': '斗技大会任务',
-  '00B4': '集会所大师等级任务',
-  '00B8': '盟友任务：重要调查任务',
-  '00BC': '盟友任务：盟友同行任务',
-  '00C0': '怪异任务',
-  '00C4': '怪异探究任务',
-  '023C': '特别探究任务',
-} as Record<string, string>
+import type { Version } from './version'
 
-export const GUILD_CARD_HUNTER_RANK_EXP = {
+export const GUILD_CARD_QUEST_TYPE = [
+  '00A0',
+  '00A4',
+  '00A8',
+  '00AC',
+  '00B0',
+  '00B4',
+  '00B8',
+  '00BC',
+  '00C0',
+  '00C4',
+  '023C',
+] as const
+
+export const GUILD_CARD_HUNTER_RANK_EXP: Record<string, string> = {
   9: '00000190',
   10: '00000320',
   11: '000004B0',
@@ -1004,9 +1006,9 @@ export const GUILD_CARD_HUNTER_RANK_EXP = {
   997: '003DEB7C',
   998: '003E09E0',
   999: '003E2844',
-} as Record<string, string>
+}
 
-export const GUILD_CARD_MASTER_RANK_EXP = {
+export const GUILD_CARD_MASTER_RANK_EXP: Record<string, string> = {
   7: '000001F4',
   8: '000003E8',
   9: '000005DC',
@@ -2000,9 +2002,9 @@ export const GUILD_CARD_MASTER_RANK_EXP = {
   997: '003BD760',
   998: '003BEB10',
   999: '003BFEC0',
-} as Record<string, string>
+}
 
-export const GUILD_CARD_ANOMALY_RANK_EXP = {
+export const GUILD_CARD_ANOMALY_RANK_EXP: Record<string, string> = {
   1: '00000000',
   2: '00000064',
   3: '000000C8',
@@ -2303,1076 +2305,1058 @@ export const GUILD_CARD_ANOMALY_RANK_EXP = {
   298: '00050F50',
   299: '00051658',
   300: '00051D60',
-} as Record<string, string>
+}
 
-export const GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE = {
-  大剑: '20',
-  太刀: '28',
-  单手剣: '40',
-  双剑: '44',
-  大锤: '34',
-  狩猎笛: '48',
-  长枪: '3C',
-  铳枪: '38',
-  斩击斧: '24',
-  盾斧: '4C',
-  操虫棍: '50',
-  轻弩炮: '2C',
-  重弩炮: '30',
-  弓: '54',
-} as Record<string, string>
+export const GUILD_CARD_WEAPON_USAGE_WEAPON_TYPE = [
+  '20',
+  '28',
+  '40',
+  '44',
+  '34',
+  '48',
+  '3C',
+  '38',
+  '24',
+  '4C',
+  '50',
+  '2C',
+  '30',
+  '54',
+] as const
 
-export const GUILD_CARD_WEAPON_USAGE_QUEST_TYPE = {
-  '0190': '综合',
-  '0198': '村庄任务',
-  '01A0': '集会所任务',
-  '01A8': '百龙夜行',
-  '01C0': '集会所大师等级任务',
-  '01B0': '盟友任务：重要调查任务',
-  '01B8': '盟友任务：盟友同行任务',
-  '01C8': '怪异任务',
-  '01D0': '怪异探究任务',
-  '01D8': '特别探究任务',
-} as Record<string, string>
+export const GUILD_CARD_WEAPON_USAGE_QUEST_TYPE = [
+  '0190',
+  '0198',
+  '01A0',
+  '01A8',
+  '01C0',
+  '01B0',
+  '01B8',
+  '01C8',
+  '01D0',
+  '01D8',
+] as const
 
-export const GUILD_CARD_MONSTER_LOG_TYPE = {
-  狩猎数: '0138',
-  捕获数: '0150',
-  怪异讨伐数: '0140',
-  最小尺寸: '0158',
-  最大尺寸: '0160',
-} as Record<string, string>
+export const GUILD_CARD_MONSTER_LOG_TYPE: Record<string, string> = {
+  hunt: '0138',
+  capture: '0150',
+  anomaly: '0140',
+  smallest: '0158',
+  largest: '0160',
+} as const
 
-export const GUILD_CARD_MONSTER = {
-  镰鼬龙王: {
+export interface GuildCardMonsterDefinition {
+  id: string
+  smallest?: string
+  largest?: string
+  type: string
+}
+
+export const GUILD_CARD_MONSTER: readonly GuildCardMonsterDefinition[] = [
+  {
     id: '00B4',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  眠狗龙王: {
+  {
     id: '0064',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  搔鸟: {
+  {
     id: '00C8',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  毒狗龙王: {
+  {
     id: '0070',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  青熊兽: {
+  {
     id: '0074',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  白兔兽: {
+  {
     id: '007C',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  赤甲兽: {
+  {
     id: '0080',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  伞鸟: {
+  {
     id: '0098',
-    largest: '3FA00000',
+    type: '',
     smallest: '3F3F7CEE',
-    type: '',
+    largest: '3FA00000',
   },
-  水兽: {
+  {
     id: '0060',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  土砂龙: {
+  {
     id: '005C',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  大名盾蟹: {
+  {
     id: '0158',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  奇怪龙: {
+  {
     id: '0030',
+    type: '',
+    smallest: '3F6147AE',
     largest: '3F947AE1',
-    smallest: '3F6147AE',
-    type: '',
   },
-  河童蛙: {
+  {
     id: '009C',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  天狗兽: {
+  {
     id: '0094',
-    largest: '3F9D70A4',
+    type: '',
     smallest: '3F4CCCCD',
-    type: '',
+    largest: '3F9D70A4',
   },
-  绯天狗兽: {
+  {
     id: '0180',
-    largest: '3F9D70A4',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3F9D70A4',
   },
-  毒妖鸟: {
+  {
     id: '00C4',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  泥鱼龙: {
+  {
     id: '00CC',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  岩龙: {
+  {
     id: '0034',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  人鱼龙: {
+  {
     id: '00A0',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  冰人鱼龙: {
+  {
     id: '0184',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  雌火龙: {
+  {
     id: '0020',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  金火龙: {
+  {
     id: '0150',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: '',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  冰牙龙: {
+  {
     id: '0058',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  飞雷龙: {
+  {
     id: '00D0',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  怨虎龙: {
+  {
     id: '0090',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  嗟怨震天怨虎龙: {
+  {
     id: '017C',
-    largest: '3F9851EC',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3F9851EC',
   },
-  蛮颚龙: {
+  {
     id: '00C0',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  迅龙: {
+  {
     id: '0054',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  月迅龙: {
+  {
     id: '0164',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: 'special',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  泡狐龙: {
+  {
     id: '0084',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  焰狐龙: {
+  {
     id: '0178',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: 'special',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  雪鬼兽: {
+  {
     id: '00B0',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  刚缠兽: {
+  {
     id: '019C',
+    type: '',
+    smallest: '3F6147AE',
     largest: '3F9D70A4',
-    smallest: '3F6147AE',
-    type: '',
   },
-  将军镰蟹: {
+  {
     id: '015C',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  火龙: {
+  {
     id: '0028',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  银火龙: {
+  {
     id: '0154',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: '',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  泥翁龙: {
+  {
     id: '00A8',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  熔翁龙: {
+  {
     id: '018C',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  雷狼龙: {
+  {
     id: '0068',
-    largest: '3FA00000',
+    type: '',
     smallest: '3F333333',
-    type: '',
+    largest: '3FA00000',
   },
-  冰狼龙: {
+  {
     id: '0198',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  电龙: {
+  {
     id: '0174',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  棘龙: {
+  {
     id: '01A4',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  棘茶龙: {
+  {
     id: '01A8',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  黑蚀龙: {
+  {
     id: '0168',
-    largest: '3F9851EC',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3F9851EC',
   },
-  混沌黑蚀龙: {
+  {
     id: '01E4',
-    largest: '3F9851EC',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3F9851EC',
   },
-  千刃龙: {
+  {
     id: '0170',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  轰龙: {
+  {
     id: '0050',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  角龙: {
+  {
     id: '0038',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  妃蜘蛛: {
+  {
     id: '00A4',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  炽妃蜘蛛: {
+  {
     id: '0188',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  钢龙: {
+  {
     id: '0044',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: 'elderDragon',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  怪异克服钢龙: {
+  {
     id: '01CC',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: 'elderDragon',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  霞龙: {
+  {
     id: '0048',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: 'elderDragon',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  怪异克服霞龙: {
+  {
     id: '01D0',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: 'elderDragon',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  炎王龙: {
+  {
     id: '004C',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: 'elderDragon',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  怪异克服炎王龙: {
+  {
     id: '01D4',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: 'elderDragon',
+    smallest: '3F733333',
+    largest: '3FA00000',
   },
-  爵银龙: {
+  {
     id: '0194',
-    largest: '3F9851EC',
-    smallest: '3F6147AE',
     type: 'elderDragon',
+    smallest: '3F6147AE',
+    largest: '3F9851EC',
   },
-  原初爵银龙: {
+  {
     id: '01E0',
-    largest: '3F9851EC',
-    smallest: '3F6147AE',
     type: 'elderDragon',
+    smallest: '3F6147AE',
+    largest: '3F9851EC',
   },
-  天廻龙: {
+  {
     id: '016C',
-    largest: '3F9851EC',
-    smallest: '3F6147AE',
     type: 'elderDragon',
+    smallest: '3F6147AE',
+    largest: '3F9851EC',
   },
-  怪异克服天廻龙: {
+  {
     id: '01D8',
+    type: 'elderDragon',
+    smallest: '3F6147AE',
     largest: '3F9851EC',
-    smallest: '3F6147AE',
-    type: 'elderDragon',
   },
-  冰呪龙: {
+  {
     id: '01E8',
-    largest: '3FA00000',
-    smallest: '3F733333',
     type: 'elderDragon',
-  },
-  金狮子: {
-    id: '0040',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
-    type: '',
-  },
-  激昂金狮子: {
-    id: '0160',
-    largest: '3FAA3D71',
     smallest: '3F733333',
-    type: '',
+    largest: '3FA00000',
   },
-  爆鳞龙: {
+  {
+    id: '0040',
+    type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
+  },
+  {
+    id: '0160',
+    type: '',
+    smallest: '3F733333',
+    largest: '3FAA3D71',
+  },
+  {
     id: '00D4',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  红莲爆鳞龙: {
+  {
     id: '0190',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: '',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  风神龙: {
+  {
     id: '00AC',
     type: 'elderDragon',
   },
-  雷神龙: {
+  {
     id: '00B8',
     type: 'elderDragon',
   },
-  百龙渊源雷神龙: {
+  {
     id: '00BC',
     type: 'elderDragon',
   },
-  神秘红光天彗龙: {
+  {
     id: '008C',
+    type: 'elderDragon',
+    smallest: '3F6147AE',
     largest: '3FA00000',
-    smallest: '3F6147AE',
-    type: 'elderDragon',
   },
-  怪异克服天彗龙: {
+  {
     id: '01DC',
-    largest: '3F9851EC',
-    smallest: '3F6147AE',
     type: 'elderDragon',
+    smallest: '3F6147AE',
+    largest: '3F9851EC',
   },
-  冥渊龙: {
+  {
     id: '01A0',
     type: 'elderDragon',
   },
-  岚龙: {
+  {
     id: '01EC',
     type: 'elderDragon',
   },
-  霸主·青熊兽: {
+  {
     id: '0078',
+    type: 'apex',
+    smallest: '3F733333',
     largest: '3F87AE14',
-    smallest: '3F733333',
-    type: 'apex',
   },
-  霸主·雌火龙: {
+  {
     id: '0024',
+    type: 'apex',
+    smallest: '3F733333',
     largest: '3F947AE1',
-    smallest: '3F733333',
-    type: 'apex',
   },
-  霸主·泡狐龙: {
+  {
     id: '0088',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: 'apex',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  霸主·火龙: {
+  {
     id: '002C',
-    largest: '3FA00000',
-    smallest: '3F6147AE',
     type: 'apex',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-  霸主·角龙: {
+  {
     id: '003C',
-    largest: '3FA00000',
+    type: 'apex',
     smallest: '3F733333',
-    type: 'apex',
-  },
-  霸主·雷狼龙: {
-    id: '006C',
     largest: '3FA00000',
-    smallest: '3F6147AE',
+  },
+  {
+    id: '006C',
     type: 'apex',
+    smallest: '3F6147AE',
+    largest: '3FA00000',
   },
-} as Record<
-  string,
+]
+
+export const GUILD_CARD_ARENA_TYPE = [
+  '80',
+  '88',
+] as const
+
+export const GUILD_CARD_ARENA_QUEST = [
+  '20',
+  '28',
+  '30',
+  '38',
+  '40',
+  '48',
+  '50',
+  '58',
+  '60',
+  '68',
+  '70',
+  '78',
+  '80',
+] as const
+
+export interface GuildCardAwardDefinition {
+  key: string
+  type: string
+  id: string
+}
+
+export const GUILD_CARD_AWARDS: readonly GuildCardAwardDefinition[] = [
   {
-    id: string
-    largest?: string
-    smallest?: string
-    type: string
-  }
->
-
-export const GUILD_CARD_ARENA_TYPE = {
-  '上位&下位': '80',
-  '大师等级': '88',
-} as Record<string, string>
-
-export const GUILD_CARD_ARENA_QUEST = {
-  斗技大会01: '20',
-  斗技大会02: '28',
-  斗技大会03: '30',
-  斗技大会04: '38',
-  斗技大会05: '40',
-  斗技大会06: '48',
-  挑战任务01: '50',
-  挑战任务02: '58',
-  挑战任务03: '60',
-  挑战任务04: '68',
-  挑战任务05: '70',
-  挑战任务06: '78',
-  挑战任务07: '80',
-} as Record<string, string>
-
-export const GUILD_CARD_AWARDS = {
-  // aa
-  '炎火村护符': {
-    id: '01',
+    key: 'aa-01',
     type: 'aa',
-    description: '成为炎火村猎人的证明。授予此证，愿君平安狩猎。',
-  },
-  '炎火村宝刀': {
-    id: '02',
-    type: 'aa',
-    description: '成功狩猎怨虎龙的证明。村中代代相传的宝刀，是村众指引者的象征。',
-  },
-  '霸主小太刀': {
-    id: '04',
-    type: 'aa',
-    description:
-      '成功击退百龙夜行霸主的证明。化为武器的锐爪上残留的伤痕，讲述着原主波澜壮阔的一生。',
-  },
-  '风神龙击退画卷': {
-    id: '08',
-    type: 'aa',
-    description: '成功击退风神龙的证明。授予的这副画卷中，由岁丰稔绘制了退敌始末。',
-  },
-  '百龙夜行画卷': {
-    id: '10',
-    type: 'aa',
-    description:
-      '成功击退风神龙和雷神龙的证明。描绘着百龙夜行的古老画卷上，有岁丰稔添补的两头巨龙。',
-  },
-  '优秀猎人之卷【下位】': {
-    id: '20',
-    type: 'aa',
-    description: '完成诸多集会所下位任务的证明。公会赠予的纪念品。',
-  },
-  '优秀猎人之卷【百龙】': {
-    id: '40',
-    type: 'aa',
-    description: '完成诸多百龙夜行任务的证明。公会赠予的纪念品。',
-  },
-  '神木项链': {
-    id: '80',
-    type: 'aa',
-    description: '在废神社完成50次任务的证明。神木之枝制成的项链。',
-  },
-  // bb
-  '冰冻不知火乌贼耳饰': {
     id: '01',
-    type: 'bb',
-    description: '在冰封群岛完成50次任务的证明。冻结于远古的珍宝。',
   },
-  '彩水晶杯': {
-    id: '02',
-    type: 'bb',
-    description: '在水没林完成50次任务的证明。埋藏在遗迹深处的秘宝。',
-  },
-  '白银仙人掌戒指': {
-    id: '04',
-    type: 'bb',
-    description: '在沙原完成50次任务的证明。银白色的珍稀仙人掌戒指。',
-  },
-  '碧赤岩手镯': {
-    id: '08',
-    type: 'bb',
-    description: '在熔岩洞完成50次任务的证明。红色和青色的结晶交相辉映。',
-  },
-  '祝福花束': {
-    id: '10',
-    type: 'bb',
-    description: '完成诸多支线任务的证明。饱含众人谢意的花束。',
-  },
-  '炎火村风车': {
-    id: '20',
-    type: 'bb',
-    description: '发动疾翔进行移动，累计达到1000次的证明。乘风千里适吾意。',
-  },
-  '磨损的牙猎犬鞍': {
-    id: '40',
-    type: 'bb',
-    description: '多次骑乘牙猎犬的证明。经历过漫长旅程，犬鞍的磨损程度非同寻常。',
-  },
-  '陈旧的扎营套件': {
-    id: '80',
-    type: 'bb',
-    description: '解锁了诸多营地的证明。其上遍布的伤痕，都有着一一对应的回忆。',
-  },
-  // cc
-  '大翔虫彩瓷': {
-    id: '01',
-    type: 'cc',
-    description: '找到了诸多大翔虫设置点的证明。跃然其上的大翔虫生动美丽。',
-  },
-  '猎具生物彩瓷': {
-    id: '02',
-    type: 'cc',
-    description: '累计获得500次猎具生物的证明。跃然其上的猎具生物生动美丽。',
-  },
-  '金灵瓢虫彩瓷': {
-    id: '04',
-    type: 'cc',
-    description: '累计收集1000只金灵瓢虫、黄金灵瓢虫的证明。跃然其上的金灵瓢虫生动美丽。',
-  },
-  '古老的书签': {
-    id: '08',
-    type: 'cc',
-    description: '找到了诸多手记的证明。纹样充满了风情。',
-  },
-  '钓竿【每投必中】': {
-    id: '10',
-    type: 'cc',
-    description: '成功钓上诸多鱼类的证明。无名钓竿在不经意间变得顺手，成为了每投必中的名竿。',
-  },
-  '烤肉大师': {
-    id: '20',
-    type: 'cc',
-    description: '成功烤出30次烤熟的肉的证明。此证书由名为烤肉推进会的可疑团体颁发。',
-  },
-  '生物研究名誉铜奖': {
-    id: '40',
-    type: 'cc',
-    description: '拍摄了诸多猎具生物的证明。作为猎人，从中获得了有益的知识和经验。',
-  },
-  '生物研究名誉银奖': {
-    id: '80',
-    type: 'cc',
-    description: '拍摄了诸多稀有生物的证明。此奖牌由热心的生态研究家颁发。',
-  },
-  // dd
-  '生物研究名誉金奖': {
-    id: '01',
-    type: 'dd',
-    description: '拍摄了诸多环境生物的证明。你对生态研究的功绩，获得了公会的认可。',
-  },
-  '豪华的钱箱': {
-    id: '02',
-    type: 'dd',
-    description: '累计赚取100万金钱的证明。豪华的真金工艺，使其比看起来更为沉重。',
-  },
-  '陈旧的钱箱': {
-    id: '04',
-    type: 'dd',
-    description: '累计获得10万炎火点数的证明。虽然久经使用，但手感顺滑且充满光泽。',
-  },
-  '随从们的感谢状': {
-    id: '08',
-    type: 'dd',
-    description: '雇用过50个随从的证明。谢谢你给了我们好多工作机会喵。',
-  },
-  '招财吉祥物': {
-    id: '10',
-    type: 'dd',
-    description: '累计100次派遣随从隐秘队进行任务的证明。',
-  },
-  '猎犬具保养道具': {
-    id: '20',
-    type: 'dd',
-    description: '收集到全部猎犬具的证明。想要长久使用，每日的保养必不可少。',
-  },
-  '高级铠甲装饰': {
-    id: '40',
-    type: 'dd',
-    description: '生产了诸多贵重武器防具的证明。选材讲究，与真品别无二致。',
-  },
-  '达人的黑带': {
-    id: '80',
-    type: 'dd',
-    description: '获得了诸多替换技的证明。不仅仅是技艺，身体与精神也久经锻炼的人才会被授予此证。',
-  },
-  // ee
-  '工匠的杵臼': {
-    id: '01',
-    type: 'ee',
-    description: '为充实茶点店菜单而奋斗的证明。茶点店里热闹的声音仿佛就在耳边。',
-  },
-  '福木兔专用衣箱': {
-    id: '02',
-    type: 'ee',
-    description: '热爱福木兔服装之人的证明。专门制造的衣箱，可以妥善收纳福木兔的服装。',
-  },
-  '走不累木屐': {
-    id: '04',
-    type: 'ee',
-    description: '曾和诸多村民对话的证明。穿上它，走路如履绒毯，让人丝毫感觉不到疲劳。',
-  },
-  '千头狩猎绘马': {
-    id: '08',
-    type: 'ee',
-    description: '狩猎了1000头大型怪物的证明。',
-  },
-  '一举五头狩猎绘马': {
-    id: '10',
-    type: 'ee',
-    description: '在1次探索之旅中，狩猎共计5头怪物的证明。',
-  },
-  '御龙高手绘马': {
-    id: '20',
-    type: 'ee',
-    description: '驾驭过诸多怪物的证明。',
-  },
-  '安宁成就折扇': {
-    id: '40',
-    type: 'ee',
-    description: '唯有竟狩猎之极者可挑战难关，此为称霸该难关任务者的证明。描绘着鏖战之景的折扇。',
-  },
-  '优秀猎人之卷【斗技】': {
-    id: '80',
-    type: 'ee',
-    description: '完成诸多斗技大会任务的证明。公会赠予的纪念品。',
-  },
-  // ff
-  '随从艾露猫的爱': {
-    id: '01',
-    type: 'ff',
-    description: '将各种支援类型的随从艾露猫锻炼至最高等级的证明。',
-  },
-  '鲜艳铠甲装饰': {
-    id: '02',
-    type: 'ff',
-    description: '获得了诸多外观装备的证明。色彩斑斓，绝不会令观者厌倦。',
-  },
-  '花链装饰瓶': {
-    id: '04',
-    type: 'ff',
-    description: '获得了诸多花链的证明。以之装饰房屋，室内会充满馨香。',
-  },
-  '凶星击退折扇': {
-    id: '08',
-    type: 'ff',
-    description: '成功击退异形天彗龙的证明。精美的折扇上描绘着英雄对战神秘红光的风采。',
-  },
-  '真・安宁成就折扇': {
-    id: '10',
-    type: 'ff',
-    description: '称霸狱泉乡最难关任务，接近猎人之极致的证明。描绘着激战霸主之景的折扇。',
-  },
-  '优秀猎人之卷【上位】': {
-    id: '20',
-    type: 'ff',
-    description: '完成诸多集会所上位任务的证明。公会赠予的纪念品。',
-  },
-  '坚固的锁': {
-    id: '40',
-    type: 'ff',
-    description: '收集到诸多摆设和立轴的证明。此锁形制坚牢稳固，可保重要物品不致失窃。',
-  },
-  '狩猎小冠绘马': {
-    id: '80',
-    type: 'ff',
-    description: '在狩猎记录中，获得诸多怪物最小金冠的证明。',
-  },
-  // gg
-  '狩猎金冠绘马': {
-    id: '01',
-    type: 'gg',
-    description: '在狩猎记录中，获得诸多怪物最大金冠的证明。',
-  },
-  '制霸大勋章': {
-    id: '02',
-    type: 'gg',
-    description: '仅授予集齐所有勋章之人的极致猎人之证。',
-  },
-  '王国的协助委托书': {
-    id: '04',
-    type: 'gg',
-    description: '受王国委托，去协助观测据点的证明。王国正式发给村子猎人的委托书。',
-  },
-  '远眺的望远镜': {
-    id: '08',
-    type: 'gg',
-    description: '为调查而奋斗的证明。崭新的望远镜能够清晰地看到远处的事物。',
-  },
-  '调查专用披风': {
-    id: '10',
-    type: 'gg',
-    description: '成功狩猎刚缠兽的证明。即使在极其严酷的调查环境中，也能保护穿戴者。',
-  },
-  '蓝羽毛钢笔': {
-    id: '20',
-    type: 'gg',
-    description: '成功狩猎冰狼龙的证明。菲奥莱娜赠送的礼物，饰有美丽蓝羽毛的钢笔。',
-  },
-  '庄严的小旗帜': {
-    id: '40',
-    type: 'gg',
-    description: '成功讨伐爵银龙的证明。庄严的王国桌上旗帜，证明了持有者的战功。',
-  },
-  '王国的协助感谢状': {
-    id: '80',
-    type: 'gg',
-    description: '为王国和平作出极大贡献的身经百战的猎人之证。王国正式授予的协助感谢状。',
-  },
-  // hh
-  '究极猎人传奇【大师】': {
-    id: '01',
-    type: 'hh',
-    description: '完成诸多集会所大师等级任务的证明。公会赠予的纪念品。',
-  },
-  '白色福木兔小口袋': {
-    id: '02',
-    type: 'hh',
-    description: '与居住在埃尔迦德的白色福木兔幼雏关系好的证明。外形小，大容量。',
-  },
-  '究极猎人传奇【斗技】': {
-    id: '04',
-    type: 'hh',
-    description: '完成更多斗技大会任务的证明。公会赠予的纪念品。',
-  },
-  '绘画【异乡的捻线】': {
-    id: '08',
-    type: 'hh',
-    description: '完成诸多盟友同行任务的证明。祝福村庄与观测据点永结盟好的绘画。',
-  },
-  '绘画【青澄的要地】': {
-    id: '10',
-    type: 'hh',
-    description: '完成诸多重要调查任务的证明。遨游于蓝天的悠然模样栩栩如生。',
-  },
-  '友情双杯': {
-    id: '20',
-    type: 'hh',
-    description: '与很多盟友缔结深厚牵绊的证明。据说以此杯共饮，能加深双方的友谊。',
-  },
-  '绘画【红色的噩梦】': {
-    id: '40',
-    type: 'hh',
-    description: '完成诸多怪异任务的证明。画上的啮生虫毛骨悚然。',
-  },
-  '海蓝色的护身符': {
-    id: '80',
-    type: 'hh',
-    description: '在密林完成50次任务的证明。庇佑长途远航平安的护身符。',
-  },
-  // ii
-  '琥珀胸针': {
-    id: '01',
-    type: 'ii',
-    description: '在城塞高地完成50次任务的证明。嵌着闪亮琥珀的胸针。',
-  },
-  '情意花束': {
-    id: '02',
-    type: 'ii',
-    description: '无论在村庄还是在观测据点，承接并解决各种委托的证明。',
-  },
-  '顺手的扎营套件': {
-    id: '04',
-    type: 'ii',
-    description: '解锁了众多密林和城塞高地营地的证明。闭着眼睛都能方便地扎营。',
-  },
-  '大翔虫纪念奖章': {
-    id: '08',
-    type: 'ii',
-    description: '发现了众多密林和城塞高地大翔虫设置点的证明。',
-  },
-  '完好无损的书签': {
-    id: '10',
-    type: 'ii',
-    description: '在密林和城塞高地找到了诸多手记的证明。和手记一起被发现的旧物没有丝毫老化。',
-  },
-  '自然相框': {
-    id: '20',
-    type: 'ii',
-    description: '拍摄了诸多主要栖息在密林与城塞高地生物的证明。照片的相框很雅致，能凸显照片。',
-  },
-  '超越者的红带': {
-    id: '40',
-    type: 'ii',
-    description: '获得了更多替换技的证明。千锤百炼的技艺卓越非凡，甚至已是人力所不能及。',
-  },
-  '气派的头盔': {
-    id: '80',
-    type: 'ii',
-    description: '生产了更多贵重武器防具的证明。酷炫的头盔上带有气派的羽毛。',
-  },
-  // jj
-  '奢华的头盔': {
-    id: '01',
-    type: 'jj',
-    description: '生产了更多贵重外观装备的证明。帅气的头盔上带有奢华的金色雕刻以及蓝色羽毛。',
-  },
-  '牢固的锁': {
-    id: '02',
-    type: 'jj',
-    description: '收集到更多摆设和壁饰的证明。这把锁坚不可摧，就算用尽全力也纹丝不动。',
-  },
-  '巨匠的杵臼': {
-    id: '04',
-    type: 'jj',
-    description: '离开村子来到埃尔迦德之后也帮助茶点店制作新团子的证明。生意兴隆！',
-  },
-  '秘传的蜜瓶': {
-    id: '08',
-    type: 'jj',
-    description: '团子美食家的证明，证明用跃动竹签吃过许多团子。浇上蜂蜜，幸福满满。',
-  },
-  '午睡艾露猫＆牙猎犬': {
-    id: '10',
-    type: 'jj',
-    description: '可以在随从道场学习各种技巧的证明。玩偶牙猎犬与艾露猫亲密无间地依偎着。',
-  },
-  '舶来的项链': {
-    id: '20',
-    type: 'jj',
-    description: '让随从带上介绍信进行许多次交易的证明。不知不觉间随从就持有了这条项链。',
-  },
-  '随从的呼唤笛': {
-    id: '40',
-    type: 'jj',
-    description: '解锁诸多侦察地点的证明。质朴的笛声能传到遥远的地方。',
-  },
-  '牙猎犬的香脆派': {
-    id: '80',
-    type: 'jj',
-    description: '让牙猎犬学会各种技巧的证明。奖给努力学习的牙猎犬，奖励香脆可口。',
-  },
-  // kk
-  '五彩斑斓的橡子': {
-    id: '01',
-    type: 'kk',
-    description: '拥有许多技能记忆力出色的随从的证明。用颜料上色的可爱橡子。',
-  },
-  '防风围巾': {
-    id: '02',
-    type: 'kk',
-    description: '使用很多次迅速切换之书的证明。能够迎风而上，在猎场上自由地驰骋。',
-  },
-  '勾玉草盆栽': {
-    id: '04',
-    type: 'kk',
-    description: '借助变幻翔虫的力量进行过各种御龙的证明。',
-  },
-  '不会破的大口袋': {
-    id: '08',
-    type: 'kk',
-    description: '在各地收到很多物品的证明。没想到会连袋子一起收到……',
-  },
-  '轻快凉鞋': {
-    id: '10',
-    type: 'kk',
-    description:
-      '和诸多观测据点的人对话的证明。一下就能穿上，穿上立刻就能跑，很适合在外出时穿的凉鞋。',
-  },
-  '狩猎者的铜盾': {
-    id: '20',
-    type: 'kk',
-    description: '狩猎了100头大师等级的大型怪物的证明。',
-  },
-  '狩猎者的银盾': {
-    id: '40',
-    type: 'kk',
-    description: '狩猎了500头大师等级的大型怪物的证明。',
-  },
-  '狩猎者的金盾': {
-    id: '80',
-    type: 'kk',
-    description: '狩猎了1000头大师等级的大型怪物的证明。',
-  },
-  // ll
-  '狩猎小冠的装饰盾': {
-    id: '01',
-    type: 'll',
-    description: '在狩猎记录中，获得几乎所有怪物最小金冠的证明。',
-  },
-  '狩猎金冠的装饰盾': {
-    id: '02',
-    type: 'll',
-    description: '在狩猎记录中，获得几乎所有怪物最大金冠的证明。',
-  },
-  '讨伐怪异的白银奖杯': {
-    id: '04',
-    type: 'll',
-    description: '首次讨伐怪异化怪物的证明。',
-  },
-  '讨伐怪异的黄金奖杯': {
-    id: '08',
-    type: 'll',
-    description: '讨伐了100头怪异化怪物的证明。',
-  },
-  '怪异研究调查书': {
-    id: '10',
-    type: 'll',
-    description: '在怪异研究方面作出重大贡献的证明。其中详细地记载了怪异化的发生机制。',
-  },
-  '鲜红的精气琥珀': {
-    id: '20',
-    type: 'll',
-    description: '完成了任务等级极大提升的怪异探究任务的证明。',
-  },
-  '巴哈里的发条鸟': {
-    id: '40',
-    type: 'll',
-    description: '多次使用怪异研究所的证明。巴哈里亲手制作的小模型，上好发条就会走起来。',
-  },
-  '加工店的特制护手': {
-    id: '80',
-    type: 'll',
-    description: '对诸多武器进行怪异炼化的证明。戴上这双护手，就能放心安全地触碰危险的素材。',
-  },
-  // mm
-  '加工店的珍藏工具': {
-    id: '01',
-    type: 'mm',
-    description: '对诸多防具进行怪异炼化的证明。能毫发无伤地切割不论多么脆弱的宝石。',
-  },
-  '讨伐克服者的装饰盾': {
-    id: '02',
-    type: 'mm',
-    description: '首次讨伐怪异克服怪物的证明。',
-  },
-  '讨伐克服者的光辉大盾': {
-    id: '04',
-    type: 'mm',
-    description: '讨伐了15头怪异克服怪物的证明。',
-  },
-  '英雄的大勋章': {
-    id: '08',
-    type: 'mm',
-    description: '表彰集齐众多勋章之人的伟大英雄之证。',
-  },
-} as Record<
-  string,
   {
-    id: string
-    type: string
-    description: string
-  }
->
+    key: 'aa-02',
+    type: 'aa',
+    id: '02',
+  },
+  {
+    key: 'aa-04',
+    type: 'aa',
+    id: '04',
+  },
+  {
+    key: 'aa-08',
+    type: 'aa',
+    id: '08',
+  },
+  {
+    key: 'aa-10',
+    type: 'aa',
+    id: '10',
+  },
+  {
+    key: 'aa-20',
+    type: 'aa',
+    id: '20',
+  },
+  {
+    key: 'aa-40',
+    type: 'aa',
+    id: '40',
+  },
+  {
+    key: 'aa-80',
+    type: 'aa',
+    id: '80',
+  },
+  {
+    key: 'bb-01',
+    type: 'bb',
+    id: '01',
+  },
+  {
+    key: 'bb-02',
+    type: 'bb',
+    id: '02',
+  },
+  {
+    key: 'bb-04',
+    type: 'bb',
+    id: '04',
+  },
+  {
+    key: 'bb-08',
+    type: 'bb',
+    id: '08',
+  },
+  {
+    key: 'bb-10',
+    type: 'bb',
+    id: '10',
+  },
+  {
+    key: 'bb-20',
+    type: 'bb',
+    id: '20',
+  },
+  {
+    key: 'bb-40',
+    type: 'bb',
+    id: '40',
+  },
+  {
+    key: 'bb-80',
+    type: 'bb',
+    id: '80',
+  },
+  {
+    key: 'cc-01',
+    type: 'cc',
+    id: '01',
+  },
+  {
+    key: 'cc-02',
+    type: 'cc',
+    id: '02',
+  },
+  {
+    key: 'cc-04',
+    type: 'cc',
+    id: '04',
+  },
+  {
+    key: 'cc-08',
+    type: 'cc',
+    id: '08',
+  },
+  {
+    key: 'cc-10',
+    type: 'cc',
+    id: '10',
+  },
+  {
+    key: 'cc-20',
+    type: 'cc',
+    id: '20',
+  },
+  {
+    key: 'cc-40',
+    type: 'cc',
+    id: '40',
+  },
+  {
+    key: 'cc-80',
+    type: 'cc',
+    id: '80',
+  },
+  {
+    key: 'dd-01',
+    type: 'dd',
+    id: '01',
+  },
+  {
+    key: 'dd-02',
+    type: 'dd',
+    id: '02',
+  },
+  {
+    key: 'dd-04',
+    type: 'dd',
+    id: '04',
+  },
+  {
+    key: 'dd-08',
+    type: 'dd',
+    id: '08',
+  },
+  {
+    key: 'dd-10',
+    type: 'dd',
+    id: '10',
+  },
+  {
+    key: 'dd-20',
+    type: 'dd',
+    id: '20',
+  },
+  {
+    key: 'dd-40',
+    type: 'dd',
+    id: '40',
+  },
+  {
+    key: 'dd-80',
+    type: 'dd',
+    id: '80',
+  },
+  {
+    key: 'ee-01',
+    type: 'ee',
+    id: '01',
+  },
+  {
+    key: 'ee-02',
+    type: 'ee',
+    id: '02',
+  },
+  {
+    key: 'ee-04',
+    type: 'ee',
+    id: '04',
+  },
+  {
+    key: 'ee-08',
+    type: 'ee',
+    id: '08',
+  },
+  {
+    key: 'ee-10',
+    type: 'ee',
+    id: '10',
+  },
+  {
+    key: 'ee-20',
+    type: 'ee',
+    id: '20',
+  },
+  {
+    key: 'ee-40',
+    type: 'ee',
+    id: '40',
+  },
+  {
+    key: 'ee-80',
+    type: 'ee',
+    id: '80',
+  },
+  {
+    key: 'ff-01',
+    type: 'ff',
+    id: '01',
+  },
+  {
+    key: 'ff-02',
+    type: 'ff',
+    id: '02',
+  },
+  {
+    key: 'ff-04',
+    type: 'ff',
+    id: '04',
+  },
+  {
+    key: 'ff-08',
+    type: 'ff',
+    id: '08',
+  },
+  {
+    key: 'ff-10',
+    type: 'ff',
+    id: '10',
+  },
+  {
+    key: 'ff-20',
+    type: 'ff',
+    id: '20',
+  },
+  {
+    key: 'ff-40',
+    type: 'ff',
+    id: '40',
+  },
+  {
+    key: 'ff-80',
+    type: 'ff',
+    id: '80',
+  },
+  {
+    key: 'gg-01',
+    type: 'gg',
+    id: '01',
+  },
+  {
+    key: 'gg-02',
+    type: 'gg',
+    id: '02',
+  },
+  {
+    key: 'gg-04',
+    type: 'gg',
+    id: '04',
+  },
+  {
+    key: 'gg-08',
+    type: 'gg',
+    id: '08',
+  },
+  {
+    key: 'gg-10',
+    type: 'gg',
+    id: '10',
+  },
+  {
+    key: 'gg-20',
+    type: 'gg',
+    id: '20',
+  },
+  {
+    key: 'gg-40',
+    type: 'gg',
+    id: '40',
+  },
+  {
+    key: 'gg-80',
+    type: 'gg',
+    id: '80',
+  },
+  {
+    key: 'hh-01',
+    type: 'hh',
+    id: '01',
+  },
+  {
+    key: 'hh-02',
+    type: 'hh',
+    id: '02',
+  },
+  {
+    key: 'hh-04',
+    type: 'hh',
+    id: '04',
+  },
+  {
+    key: 'hh-08',
+    type: 'hh',
+    id: '08',
+  },
+  {
+    key: 'hh-10',
+    type: 'hh',
+    id: '10',
+  },
+  {
+    key: 'hh-20',
+    type: 'hh',
+    id: '20',
+  },
+  {
+    key: 'hh-40',
+    type: 'hh',
+    id: '40',
+  },
+  {
+    key: 'hh-80',
+    type: 'hh',
+    id: '80',
+  },
+  {
+    key: 'ii-01',
+    type: 'ii',
+    id: '01',
+  },
+  {
+    key: 'ii-02',
+    type: 'ii',
+    id: '02',
+  },
+  {
+    key: 'ii-04',
+    type: 'ii',
+    id: '04',
+  },
+  {
+    key: 'ii-08',
+    type: 'ii',
+    id: '08',
+  },
+  {
+    key: 'ii-10',
+    type: 'ii',
+    id: '10',
+  },
+  {
+    key: 'ii-20',
+    type: 'ii',
+    id: '20',
+  },
+  {
+    key: 'ii-40',
+    type: 'ii',
+    id: '40',
+  },
+  {
+    key: 'ii-80',
+    type: 'ii',
+    id: '80',
+  },
+  {
+    key: 'jj-01',
+    type: 'jj',
+    id: '01',
+  },
+  {
+    key: 'jj-02',
+    type: 'jj',
+    id: '02',
+  },
+  {
+    key: 'jj-04',
+    type: 'jj',
+    id: '04',
+  },
+  {
+    key: 'jj-08',
+    type: 'jj',
+    id: '08',
+  },
+  {
+    key: 'jj-10',
+    type: 'jj',
+    id: '10',
+  },
+  {
+    key: 'jj-20',
+    type: 'jj',
+    id: '20',
+  },
+  {
+    key: 'jj-40',
+    type: 'jj',
+    id: '40',
+  },
+  {
+    key: 'jj-80',
+    type: 'jj',
+    id: '80',
+  },
+  {
+    key: 'kk-01',
+    type: 'kk',
+    id: '01',
+  },
+  {
+    key: 'kk-02',
+    type: 'kk',
+    id: '02',
+  },
+  {
+    key: 'kk-04',
+    type: 'kk',
+    id: '04',
+  },
+  {
+    key: 'kk-08',
+    type: 'kk',
+    id: '08',
+  },
+  {
+    key: 'kk-10',
+    type: 'kk',
+    id: '10',
+  },
+  {
+    key: 'kk-20',
+    type: 'kk',
+    id: '20',
+  },
+  {
+    key: 'kk-40',
+    type: 'kk',
+    id: '40',
+  },
+  {
+    key: 'kk-80',
+    type: 'kk',
+    id: '80',
+  },
+  {
+    key: 'll-01',
+    type: 'll',
+    id: '01',
+  },
+  {
+    key: 'll-02',
+    type: 'll',
+    id: '02',
+  },
+  {
+    key: 'll-04',
+    type: 'll',
+    id: '04',
+  },
+  {
+    key: 'll-08',
+    type: 'll',
+    id: '08',
+  },
+  {
+    key: 'll-10',
+    type: 'll',
+    id: '10',
+  },
+  {
+    key: 'll-20',
+    type: 'll',
+    id: '20',
+  },
+  {
+    key: 'll-40',
+    type: 'll',
+    id: '40',
+  },
+  {
+    key: 'll-80',
+    type: 'll',
+    id: '80',
+  },
+  {
+    key: 'mm-01',
+    type: 'mm',
+    id: '01',
+  },
+  {
+    key: 'mm-02',
+    type: 'mm',
+    id: '02',
+  },
+  {
+    key: 'mm-04',
+    type: 'mm',
+    id: '04',
+  },
+  {
+    key: 'mm-08',
+    type: 'mm',
+    id: '08',
+  },
+]
 
-export const GUILD_CARD_RANK_CHEAT_POINTER = {
+export const GUILD_CARD_RANK_CHEAT_POINTER: Record<Version, string> = {
   'v16.0.2': '12B260C8',
   'v16.0.1': '12B121F8',
   'v16.0.0': '12B17BF8',
-} as Record<string, string>
+}
 
-export const GUILD_CARD_CHEAT_ZENNY_POINTER = {
+export const GUILD_CARD_CHEAT_ZENNY_POINTER: Record<Version, string> = {
   'v16.0.2': '12B157C0',
   'v16.0.1': '12A4A1E8',
   'v16.0.0': '12A4FD80',
-} as Record<string, string>
+}
 
-export const GUILD_CARD_CHEAT_POINTER = {
+export const GUILD_CARD_CHEAT_POINTER: Record<Version, string> = {
   'v16.0.2': '12B28A18',
   'v16.0.1': '12B14A58',
   'v16.0.0': '12B1A488',
-} as Record<string, string>
+}

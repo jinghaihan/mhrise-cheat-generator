@@ -2,8 +2,15 @@ import { t } from '@/modules/i18n'
 
 export type ColumnData = TalismanConfig
 
-export interface BasicFormState extends TalismanConfig {
+export interface BasicFormState {
   [key: string]: any
+  box: number
+  type: LabelInValueType | null
+  skill1: LabelInValueType | null
+  level1: number | null
+  skill2: LabelInValueType | null
+  level2: number | null
+  slot: LabelInValueType | null
 }
 
 export function getColumns() {

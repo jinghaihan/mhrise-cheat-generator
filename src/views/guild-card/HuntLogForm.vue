@@ -18,36 +18,39 @@ const MONSTER_LOG_TYPE = {
 
 const CAPTURE_DISABLED_TYPES = new Set(['elderDragon', 'apex'])
 const ANOMALY_DISABLED_TYPES = new Set(['elderDragon', 'apex', 'special'])
+interface MonsterMeta {
+  id: string
+  type: string
+  smallest?: string
+  largest?: string
+}
 
 export default defineComponent({
   name: 'HuntLogForm',
   setup() {
     const { genCheat } = useCheat()
-    const MONSTER_BY_ID = Object.keys(GUILD_CARD_MONSTER).reduce((result, name) => {
-      result[GUILD_CARD_MONSTER[name].id] = {
-        ...GUILD_CARD_MONSTER[name],
-        name,
-      }
+    const MONSTER_BY_ID = GUILD_CARD_MONSTER.reduce<Record<string, MonsterMeta>>((result, monster) => {
+      result[monster.id] = monster
       return result
-    }, {} as Record<string, { id: string, name: string, type: string, smallest?: string, largest?: string }>)
+    }, {})
 
-    const formState = ref({
+    const formState = ref<HuntLogFormState>({
       overall: {
         hunt: null,
         capture: null,
       },
-    } as HuntLogFormState)
+    })
 
     const GUILD_CARD_MONSTER_OPTIONS = useReactiveI18n(() =>
       Object.values(MONSTER_BY_ID).map((monster) => {
         return {
-          label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonster, monster.id, monster.name),
+          label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonster, monster.id, monster.id),
           value: monster.id,
         }
       }),
     )
 
-    const images = {} as Record<string, string>
+    const images: Record<string, string> = {}
     Object.values(MONSTER_BY_ID).forEach((monster) => {
       images[monster.id] = new URL(`../../assets/images/monster/${monster.id}.png`, import.meta.url).href
       formState.value[monster.id] = {}
@@ -57,20 +60,20 @@ export default defineComponent({
       return {
         ...params,
         type: {
-          label: getEnumLabel('ui.guildCard', 'smallestSize', '最小尺寸'),
+          label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonsterLogType, 'smallest'),
           value: MONSTER_LOG_TYPE.smallest,
         },
-        size: MONSTER_BY_ID[params.monster.value].smallest as string,
+        size: MONSTER_BY_ID[params.monster.value].smallest || '',
       }
     }
     const getLargestMonsterData = (params: { monster: { label: string, value: string } }) => {
       return {
         ...params,
         type: {
-          label: getEnumLabel('ui.guildCard', 'largestSize', '最大尺寸'),
+          label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonsterLogType, 'largest'),
           value: MONSTER_LOG_TYPE.largest,
         },
-        size: MONSTER_BY_ID[params.monster.value].largest as string,
+        size: MONSTER_BY_ID[params.monster.value].largest || '',
       }
     }
 
@@ -86,7 +89,7 @@ export default defineComponent({
               label: getEnumLabel(
                 ENUM_I18N_PREFIX.guildCardMonster,
                 monster,
-                MONSTER_BY_ID[monster]?.name || monster,
+                monster,
               ),
               value: monster,
             },
@@ -96,7 +99,7 @@ export default defineComponent({
               ...params,
               count: formState.value[monster].hunt,
               type: {
-                label: getEnumLabel('ui.guildCard', 'huntCount', '狩猎数'),
+                label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonsterLogType, 'hunt'),
                 value: MONSTER_LOG_TYPE.hunt,
               },
             })
@@ -106,7 +109,7 @@ export default defineComponent({
               ...params,
               count: formState.value[monster].capture,
               type: {
-                label: getEnumLabel('ui.guildCard', 'captureCount', '捕获数'),
+                label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonsterLogType, 'capture'),
                 value: MONSTER_LOG_TYPE.capture,
               },
             })
@@ -116,7 +119,7 @@ export default defineComponent({
               ...params,
               count: formState.value[monster].anomaly,
               type: {
-                label: getEnumLabel('ui.guildCard', 'anomalyHuntCount', '怪异讨伐数'),
+                label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonsterLogType, 'anomaly'),
                 value: MONSTER_LOG_TYPE.anomaly,
               },
             })
@@ -135,7 +138,7 @@ export default defineComponent({
         if (monster.smallest && monster.largest) {
           const params = {
             monster: {
-              label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonster, monster.id, monster.name),
+              label: getEnumLabel(ENUM_I18N_PREFIX.guildCardMonster, monster.id, monster.id),
               value: monster.id,
             },
           }
