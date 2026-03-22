@@ -18,6 +18,10 @@ catalogs:
     vite-plugin-svg-icons:
       specifier: ^2.0.1
       version: 2.0.1
+  default:
+    vue-i18n:
+      specifier: ^11.3.0
+      version: 11.3.0
   dev:
     fast-glob:
       specifier: ^3.3.3
@@ -126,7 +130,7 @@ importers:
         specifier: catalog:frontend
         version: 3.5.30(typescript@5.9.3)
       vue-i18n:
-        specifier: ^11.3.0
+        specifier: 'catalog:'
         version: 11.3.0(vue@3.5.30(typescript@5.9.3))
       vue-router:
         specifier: catalog:frontend
