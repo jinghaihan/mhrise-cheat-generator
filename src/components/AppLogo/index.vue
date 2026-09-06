@@ -26,6 +26,7 @@ export default defineComponent({
 
   .@{prefix-cls} {
     width: 100%;
+    margin-top: 8px;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
