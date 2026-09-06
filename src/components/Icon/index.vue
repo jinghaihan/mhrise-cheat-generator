@@ -1,31 +1,17 @@
-<script lang="ts">
-import { computed, defineComponent, inject } from 'vue'
-import SvgIcon from './SvgIcon/index.vue'
+<script setup lang="ts">
+import { computed, inject } from 'vue'
+import { ICONS } from './icons'
 
-export default defineComponent({
-  name: 'Icon',
-  components: {
-    SvgIcon,
-  },
-  props: {
-    type: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
-    return {
-      prefixCls: `${inject('PREFIX_CLS')}-icon`,
-      componentType: computed(() => {
-        return props.type.startsWith('svg-') ? 'SvgIcon' : props.type
-      }),
-    }
-  },
-})
+const props = defineProps<{
+  type: string
+}>()
+
+const prefixCls = `${inject('PREFIX_CLS')}-icon`
+const iconComponent = computed(() => ICONS[props.type as keyof typeof ICONS])
 </script>
 
 <template>
   <div :class="prefixCls">
-    <Component :is="componentType" :type="type" />
+    <component :is="iconComponent" v-if="iconComponent" aria-hidden="true" />
   </div>
 </template>

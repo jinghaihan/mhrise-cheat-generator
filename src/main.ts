@@ -2,7 +2,6 @@ import type { App } from 'vue'
 import { createApp } from 'vue'
 import root from './App.vue'
 import './assets/styles'
-import 'virtual:svg-icons-register'
 
 function setup() {
   const app = createApp(root)

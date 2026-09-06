@@ -1,22 +1,5 @@
 import type { App } from 'vue'
 import {
-  BellOutlined,
-  CalculatorOutlined,
-  CheckCircleOutlined,
-  CloseCircleFilled,
-  CompressOutlined,
-  ExperimentOutlined,
-  FormOutlined,
-  FunctionOutlined,
-  GithubOutlined,
-  IdcardOutlined,
-  MonitorOutlined,
-  QuestionCircleOutlined,
-  SettingOutlined,
-  ShopOutlined,
-  ShoppingCartOutlined,
-} from '@ant-design/icons-vue'
-import {
   Anchor,
   Badge,
   Button,
@@ -48,26 +31,7 @@ import Action from '@/components/Action/index.vue'
 import Icon from '@/components/Icon/index.vue'
 
 export function install(app: App) {
-  setupAntIcon(app)
   setupGlobComp(app)
-}
-
-export function setupAntIcon(app: App) {
-  app.component('ShopOutlined', ShopOutlined)
-  app.component('ExperimentOutlined', ExperimentOutlined)
-  app.component('CalculatorOutlined', CalculatorOutlined)
-  app.component('MonitorOutlined', MonitorOutlined)
-  app.component('BellOutlined', BellOutlined)
-  app.component('IdcardOutlined', IdcardOutlined)
-  app.component('ShoppingCartOutlined', ShoppingCartOutlined)
-  app.component('SettingOutlined', SettingOutlined)
-  app.component('GithubOutlined', GithubOutlined)
-  app.component('CloseCircleFilled', CloseCircleFilled)
-  app.component('FormOutlined', FormOutlined)
-  app.component('QuestionCircleOutlined', QuestionCircleOutlined)
-  app.component('FunctionOutlined', FunctionOutlined)
-  app.component('CheckCircleOutlined', CheckCircleOutlined)
-  app.component('CompressOutlined', CompressOutlined)
 }
 
 export function setupGlobComp(app: App) {

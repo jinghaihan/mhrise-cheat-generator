@@ -13,7 +13,8 @@
     "resolveJsonModule": true,
     "types": [
       "vitest",
-      "vite/client"
+      "vite/client",
+      "unplugin-icons/types/vue"
     ],
     "allowJs": true,
     "strict": true,

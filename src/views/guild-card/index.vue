@@ -69,7 +69,7 @@ export default defineComponent({
 
     <a-float-button type="primary" @click="onSubmit">
       <template #icon>
-        <Icon type="FormOutlined" />
+        <Icon type="edit" />
       </template>
     </a-float-button>
   </div>

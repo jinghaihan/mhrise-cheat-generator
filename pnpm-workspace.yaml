@@ -7,8 +7,8 @@ catalogs:
   build:
     '@vitejs/plugin-vue': ^6.0.8
     '@vitejs/plugin-vue-jsx': ^5.1.6
+    unplugin-icons: ^23.0.1
     vite: ^8.2.2
-    vite-plugin-svg-icons: ^2.0.1
   dev:
     less: ^4.9.1
     less-loader: ^13.0.0
@@ -17,12 +17,13 @@ catalogs:
     taze: ^21.1.0
     typescript: ^6.0.3
   frontend:
-    '@ant-design/icons-vue': ^7.0.1
     '@unhead/vue': ^3.4.0
     ant-design-vue: ^4.2.6
     pinia: ^4.0.3
     vue: ^3.5.42
     vue-router: ^5.3.1
+  icons:
+    '@iconify-json/lucide': ^1.2.129
   lint:
     '@octohash/eslint-config': ^0.6.1
     eslint: ^10.10.0

@@ -1,20 +1,24 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
+import logo from '@/assets/svg/logo.svg'
 
 export default defineComponent({
   name: 'AppLogo',
   setup() {
     return {
       prefixCls: `${inject('PREFIX_CLS')}-app-logo`,
+      logo,
     }
   },
 })
 </script>
 
 <template>
-  <div :class="prefixCls">
-    <Icon type="svg-logo" />
-  </div>
+  <div
+    :class="prefixCls"
+    :style="{ '--logo-url': `url(${logo})` }"
+    aria-hidden="true"
+  />
 </template>
 
 <style lang="less" scoped>
@@ -28,5 +32,8 @@ export default defineComponent({
     justify-content: center;
     font-size: 32px;
     color: @primary-color;
+    background-color: currentColor;
+    mask: var(--logo-url) center / contain no-repeat;
+    -webkit-mask: var(--logo-url) center / contain no-repeat;
   }
 </style>

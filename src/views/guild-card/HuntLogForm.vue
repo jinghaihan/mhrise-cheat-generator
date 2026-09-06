@@ -192,7 +192,7 @@ export default defineComponent({
             <template #label>
               {{ $t('ui.guildCard.totalHuntAndCapture') }}
               <a-tooltip :title="$t('ui.guildCard.totalHuntFormula')">
-                <Icon class="tip-icon" type="QuestionCircleOutlined" />
+                <Icon class="tip-icon" type="help" />
               </a-tooltip>
             </template>
             <a-input-group compact>
@@ -244,7 +244,7 @@ export default defineComponent({
                   <template #label>
                     {{ $t('ui.guildCard.huntAndCapture') }}
                     <a-tooltip :title="$t('ui.guildCard.huntFormula')">
-                      <Icon class="tip-icon" type="QuestionCircleOutlined" />
+                      <Icon class="tip-icon" type="help" />
                     </a-tooltip>
                   </template>
                   <a-input-group compact>

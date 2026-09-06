@@ -90,7 +90,7 @@ export default defineComponent({
     <template #extra>
       <a-space>
         <a-tooltip :title="$t('ui.guildCard.awardsTip')">
-          <Icon class="tip-icon" type="QuestionCircleOutlined" />
+          <Icon class="tip-icon" type="help" />
         </a-tooltip>
         <a-checkbox
           v-model:checked="checkAll"
@@ -114,7 +114,7 @@ export default defineComponent({
         </template>
         <a-badge status="color">
           <template #count>
-            <Icon v-show="data[award.key]" type="CheckCircleOutlined" />
+            <Icon v-show="data[award.key]" type="checked" />
           </template>
           <a-card hoverable :style="{ width: '64px' }" @click="onChange(award.key)">
             <template #cover>

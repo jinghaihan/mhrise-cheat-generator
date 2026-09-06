@@ -7,7 +7,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/item/index.vue'),
     meta: {
       titleKey: 'ui.route.item',
-      icon: 'ShopOutlined',
+      icon: 'item',
     },
   },
   {
@@ -16,7 +16,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/talisman/index.vue'),
     meta: {
       titleKey: 'ui.route.talisman',
-      icon: 'ExperimentOutlined',
+      icon: 'talisman',
     },
   },
   {
@@ -25,7 +25,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/qurious-crafting/index.vue'),
     meta: {
       titleKey: 'ui.route.quriousCrafting',
-      icon: 'CalculatorOutlined',
+      icon: 'quriousCrafting',
     },
   },
   {
@@ -34,7 +34,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/anomaly-quest/index.vue'),
     meta: {
       titleKey: 'ui.route.anomalyQuest',
-      icon: 'MonitorOutlined',
+      icon: 'anomalyQuest',
     },
   },
   {
@@ -43,7 +43,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/buddy/index.vue'),
     meta: {
       titleKey: 'ui.route.buddy',
-      icon: 'BellOutlined',
+      icon: 'buddy',
     },
   },
   {
@@ -52,7 +52,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/guild-card/index.vue'),
     meta: {
       titleKey: 'ui.route.guildCard',
-      icon: 'IdcardOutlined',
+      icon: 'guildCard',
     },
   },
   {
@@ -61,7 +61,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/functional-list/index.vue'),
     meta: {
       titleKey: 'ui.route.functionalList',
-      icon: 'FunctionOutlined',
+      icon: 'functionalList',
     },
   },
   {

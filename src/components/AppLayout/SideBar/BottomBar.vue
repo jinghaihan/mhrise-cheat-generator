@@ -72,7 +72,7 @@ export default defineComponent({
     <Action
       :title="$t('ui.sidebar.cart')"
       placement="right"
-      icon="ShoppingCartOutlined"
+      icon="cart"
       @click="
         () => {
           drawerVisible = true
@@ -82,7 +82,7 @@ export default defineComponent({
   </a-badge>
 
   <a-popover :title="$t('ui.sidebar.setting')" :trigger="['click']" placement="right">
-    <Action icon="SettingOutlined" />
+    <Action icon="settings" />
     <template #content>
       <a-space direction="vertical" :size="8">
         <a-select
@@ -105,21 +105,21 @@ export default defineComponent({
   <Action
     :title="theme === 'light' ? $t('ui.sidebar.darkTheme') : $t('ui.sidebar.lightTheme')"
     placement="right"
-    :icon="theme === 'light' ? 'svg-moon' : 'svg-sun'"
+    :icon="theme === 'light' ? 'darkTheme' : 'lightTheme'"
     @click="userStore.changeTheme"
   />
 
   <Action
     :title="$t('ui.sidebar.compactMode')"
     placement="right"
-    icon="CompressOutlined"
+    icon="compact"
     @click="userStore.changeCompactMode"
   />
 
   <Action
     title="Github"
     placement="right"
-    icon="GithubOutlined"
+    icon="github"
     @click="() => toGithub()"
   />
 
@@ -160,7 +160,7 @@ export default defineComponent({
             placement="left"
             @confirm="onDelete(item)"
           >
-            <Icon type="CloseCircleFilled" @click="(e: MouseEvent) => e.stopPropagation()" />
+            <Icon type="close" @click="(e: MouseEvent) => e.stopPropagation()" />
           </a-popconfirm>
         </template>
       </a-collapse-panel>

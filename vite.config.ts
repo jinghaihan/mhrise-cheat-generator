@@ -1,8 +1,8 @@
 import path from 'node:path'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
+import Icons from 'unplugin-icons/vite'
 import { defineConfig } from 'vite'
-import { createSvgIconsPlugin as ViteSvgIcons } from 'vite-plugin-svg-icons'
 
 export default defineConfig({
   server: {
@@ -28,9 +28,6 @@ export default defineConfig({
   plugins: [
     Vue(),
     VueJsx(),
-    ViteSvgIcons({
-      iconDirs: [path.resolve(__dirname, 'src/assets/svg')],
-      symbolId: 'svg-[name]',
-    }),
+    Icons({ compiler: 'vue3' }),
   ],
 })
