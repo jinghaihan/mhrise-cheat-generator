@@ -41,7 +41,6 @@
     "@vitejs/plugin-vue-jsx": "catalog:build",
     "vite": "catalog:build",
     "vite-plugin-svg-icons": "catalog:build",
-    "fast-glob": "catalog:dev",
     "less": "catalog:dev",
     "less-loader": "catalog:dev",
     "pncat": "catalog:dev",
